@@ -1,3 +1,4 @@
+cat > /mnt/user-data/outputs/creo-ia.html << 'HTMLEOF'
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -7,1065 +8,355 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #050810;
-    --bg2: #0a0f1e;
-    --bg3: #0f1628;
-    --accent: #4f8eff;
-    --accent2: #7c5cfc;
-    --accent3: #00e5c0;
-    --text: #f0f4ff;
-    --text2: #8b9cc8;
-    --text3: #4a5578;
-    --border: rgba(79,142,255,0.15);
-    --card: rgba(15,22,40,0.9);
-    --glow: rgba(79,142,255,0.3);
-    --font-title: 'Syne', sans-serif;
-    --font-body: 'DM Sans', sans-serif;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font-body);
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
+:root {
+  --bg:#050810;--bg2:#0a0f1e;--bg3:#0f1628;
+  --accent:#4f8eff;--accent2:#7c5cfc;--accent3:#00e5c0;
+  --text:#f0f4ff;--text2:#8b9cc8;--text3:#4a5578;
+  --border:rgba(79,142,255,0.15);--card:rgba(15,22,40,0.9);
+  --glow:rgba(79,142,255,0.3);
+  --font-title:'Syne',sans-serif;--font-body:'DM Sans',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);line-height:1.6;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(79,142,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(79,142,255,0.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0;}
 
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(79,142,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(79,142,255,0.03) 1px, transparent 1px);
-    background-size: 60px 60px;
-    pointer-events: none;
-    z-index: 0;
-  }
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 3rem;background:rgba(5,8,16,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:var(--font-title);font-size:1.4rem;font-weight:800;letter-spacing:-0.5px;display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--text);cursor:pointer;}
+.nav-logo span{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.nav-badge{font-size:0.55rem;font-weight:600;letter-spacing:1px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;padding:2px 6px;border-radius:4px;-webkit-text-fill-color:white;vertical-align:super;}
+.nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center;}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:0.9rem;font-weight:400;transition:color 0.2s;}
+.nav-links a:hover{color:var(--text);}
+.nav-cta{background:linear-gradient(135deg,var(--accent),var(--accent2));color:white!important;padding:0.5rem 1.25rem;border-radius:8px;font-weight:500;cursor:pointer;-webkit-text-fill-color:white!important;}
+#nav-user-btn{display:flex;align-items:center;gap:8px;background:rgba(79,142,255,0.1);border:1px solid var(--border);color:var(--text2);padding:0.4rem 1rem;border-radius:8px;cursor:pointer;font-size:0.85rem;transition:all 0.2s;}
+#nav-user-btn:hover{border-color:rgba(79,142,255,0.4);color:var(--text);}
+.nav-avatar{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;color:white;font-family:var(--font-title);}
 
-  /* === NAV === */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem 3rem;
-    background: rgba(5,8,16,0.85);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-  }
-  .nav-logo {
-    font-family: var(--font-title);
-    font-size: 1.4rem;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    color: var(--text);
-    cursor: pointer;
-  }
-  .nav-logo span {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .nav-badge {
-    font-size: 0.55rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    color: white;
-    padding: 2px 6px;
-    border-radius: 4px;
-    -webkit-text-fill-color: white;
-    vertical-align: super;
-  }
-  .nav-links {
-    display: flex;
-    gap: 2.5rem;
-    list-style: none;
-  }
-  .nav-links a {
-    color: var(--text2);
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 400;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--text); }
-  .nav-cta {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    color: white !important;
-    padding: 0.5rem 1.25rem;
-    border-radius: 8px;
-    font-weight: 500;
-    cursor: pointer;
-  }
-  .nav-cta:hover { opacity: 0.9; }
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 4rem;z-index:1;}
+.hero-glow{position:absolute;top:30%;left:50%;transform:translate(-50%,-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(79,142,255,0.15) 0%,transparent 70%);pointer-events:none;}
+.hero-chip{display:inline-flex;align-items:center;gap:8px;background:rgba(79,142,255,0.1);border:1px solid rgba(79,142,255,0.3);color:var(--accent);padding:0.4rem 1rem;border-radius:100px;font-size:0.8rem;font-weight:500;margin-bottom:2rem;letter-spacing:0.5px;}
+.hero-chip::before{content:'';width:6px;height:6px;background:var(--accent3);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(1.3);}}
+.hero h1{font-family:var(--font-title);font-size:clamp(2.8rem,7vw,5.5rem);font-weight:800;line-height:1.05;letter-spacing:-2px;margin-bottom:1.5rem;max-width:900px;}
+.hero h1 .grad{background:linear-gradient(135deg,#4f8eff 0%,#7c5cfc 50%,#00e5c0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero p{font-size:1.15rem;color:var(--text2);max-width:580px;margin:0 auto 2.5rem;font-weight:300;line-height:1.8;}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;padding:0.85rem 2rem;border-radius:10px;text-decoration:none;font-weight:500;font-size:0.95rem;transition:transform 0.2s,box-shadow 0.2s;box-shadow:0 0 30px rgba(79,142,255,0.3);cursor:pointer;border:none;display:inline-block;font-family:var(--font-body);}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(79,142,255,0.5);}
+.btn-secondary{background:transparent;color:var(--text);padding:0.85rem 2rem;border-radius:10px;text-decoration:none;font-weight:400;font-size:0.95rem;border:1px solid var(--border);transition:border-color 0.2s,background 0.2s;display:inline-block;cursor:pointer;font-family:var(--font-body);}
+.btn-secondary:hover{border-color:rgba(79,142,255,0.4);background:rgba(79,142,255,0.05);}
 
-  /* === HERO === */
-  .hero {
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 8rem 2rem 4rem;
-    z-index: 1;
-  }
-  .hero-glow {
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 600px;
-    height: 400px;
-    background: radial-gradient(ellipse, rgba(79,142,255,0.15) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .hero-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(79,142,255,0.1);
-    border: 1px solid rgba(79,142,255,0.3);
-    color: var(--accent);
-    padding: 0.4rem 1rem;
-    border-radius: 100px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    margin-bottom: 2rem;
-    letter-spacing: 0.5px;
-  }
-  .hero-chip::before {
-    content: '';
-    width: 6px; height: 6px;
-    background: var(--accent3);
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(1.3); }
-  }
-  .hero h1 {
-    font-family: var(--font-title);
-    font-size: clamp(2.8rem, 7vw, 5.5rem);
-    font-weight: 800;
-    line-height: 1.05;
-    letter-spacing: -2px;
-    margin-bottom: 1.5rem;
-    max-width: 900px;
-  }
-  .hero h1 .grad {
-    background: linear-gradient(135deg, #4f8eff 0%, #7c5cfc 50%, #00e5c0 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .hero p {
-    font-size: 1.15rem;
-    color: var(--text2);
-    max-width: 580px;
-    margin: 0 auto 2.5rem;
-    font-weight: 300;
-    line-height: 1.8;
-  }
-  .hero-btns {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  .btn-primary {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    color: white;
-    padding: 0.85rem 2rem;
-    border-radius: 10px;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 0.95rem;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 0 30px rgba(79,142,255,0.3);
-    cursor: pointer;
-    border: none;
-    display: inline-block;
-  }
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 40px rgba(79,142,255,0.5);
-  }
-  .btn-secondary {
-    background: transparent;
-    color: var(--text);
-    padding: 0.85rem 2rem;
-    border-radius: 10px;
-    text-decoration: none;
-    font-weight: 400;
-    font-size: 0.95rem;
-    border: 1px solid var(--border);
-    transition: border-color 0.2s, background 0.2s;
-    display: inline-block;
-  }
-  .btn-secondary:hover {
-    border-color: rgba(79,142,255,0.4);
-    background: rgba(79,142,255,0.05);
-  }
+/* STATS */
+.stats{display:flex;gap:2rem;flex-wrap:wrap;justify-content:center;margin-top:4rem;padding:2rem;border-top:1px solid var(--border);z-index:1;}
+.stat{text-align:center;}
+.stat-num{font-family:var(--font-title);font-size:2.2rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.stat-label{font-size:0.8rem;color:var(--text3);letter-spacing:0.5px;margin-top:4px;}
 
-  /* === STATS === */
-  .stats {
-    display: flex;
-    gap: 2rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 4rem;
-    padding: 2rem;
-    border-top: 1px solid var(--border);
-    z-index: 1;
-  }
-  .stat { text-align: center; }
-  .stat-num {
-    font-family: var(--font-title);
-    font-size: 2.2rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, var(--accent), var(--accent3));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .stat-label {
-    font-size: 0.8rem;
-    color: var(--text3);
-    letter-spacing: 0.5px;
-    margin-top: 4px;
-  }
+/* SECTIONS */
+section{position:relative;z-index:1;}
+.section-label{font-size:0.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;}
+.section-title{font-family:var(--font-title);font-size:clamp(1.8rem,4vw,3rem);font-weight:700;line-height:1.15;letter-spacing:-1px;margin-bottom:1rem;}
+.section-sub{color:var(--text2);font-size:1rem;max-width:500px;line-height:1.7;}
+.container{max-width:1100px;margin:0 auto;padding:0 2rem;}
+.pad{padding:6rem 0;}
 
-  /* === SECTIONS === */
-  section { position: relative; z-index: 1; }
-  .section-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 1rem;
-  }
-  .section-title {
-    font-family: var(--font-title);
-    font-size: clamp(1.8rem, 4vw, 3rem);
-    font-weight: 700;
-    line-height: 1.15;
-    letter-spacing: -1px;
-    margin-bottom: 1rem;
-  }
-  .section-sub {
-    color: var(--text2);
-    font-size: 1rem;
-    max-width: 500px;
-    line-height: 1.7;
-  }
-  .container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 2rem;
-  }
-  .pad { padding: 6rem 0; }
+/* FEATURE CARDS */
+.brevet-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-top:3rem;}
+.feature-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.75rem;transition:border-color 0.3s,transform 0.3s;cursor:default;}
+.feature-card:hover{border-color:rgba(79,142,255,0.35);transform:translateY(-4px);}
+.feature-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:1rem;}
+.feature-icon.blue{background:rgba(79,142,255,0.15);}
+.feature-icon.purple{background:rgba(124,92,252,0.15);}
+.feature-icon.teal{background:rgba(0,229,192,0.15);}
+.feature-icon.amber{background:rgba(255,177,0,0.15);}
+.feature-title{font-family:var(--font-title);font-size:1.05rem;font-weight:700;margin-bottom:0.5rem;letter-spacing:-0.3px;}
+.feature-desc{font-size:0.88rem;color:var(--text2);line-height:1.65;}
+.feature-tag{display:inline-block;margin-top:0.8rem;font-size:0.72rem;font-weight:600;letter-spacing:0.5px;padding:3px 8px;border-radius:4px;background:rgba(79,142,255,0.1);color:var(--accent);border:1px solid rgba(79,142,255,0.2);}
 
-  /* === FEATURE CARDS === */
-  .brevet-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin-top: 3rem;
-  }
-  .feature-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 1.75rem;
-    transition: border-color 0.3s, transform 0.3s;
-    cursor: default;
-  }
-  .feature-card:hover {
-    border-color: rgba(79,142,255,0.35);
-    transform: translateY(-4px);
-  }
-  .feature-icon {
-    width: 44px; height: 44px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-  }
-  .feature-icon.blue { background: rgba(79,142,255,0.15); }
-  .feature-icon.purple { background: rgba(124,92,252,0.15); }
-  .feature-icon.teal { background: rgba(0,229,192,0.15); }
-  .feature-icon.amber { background: rgba(255,177,0,0.15); }
-  .feature-title {
-    font-family: var(--font-title);
-    font-size: 1.05rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.3px;
-  }
-  .feature-desc {
-    font-size: 0.88rem;
-    color: var(--text2);
-    line-height: 1.65;
-  }
-  .feature-tag {
-    display: inline-block;
-    margin-top: 0.8rem;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    padding: 3px 8px;
-    border-radius: 4px;
-    background: rgba(79,142,255,0.1);
-    color: var(--accent);
-    border: 1px solid rgba(79,142,255,0.2);
-  }
+/* SUBJECTS */
+.subjects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin-top:2.5rem;}
+.subject-pill{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem;text-align:center;transition:all 0.2s;cursor:pointer;}
+.subject-pill:hover{border-color:rgba(79,142,255,0.4);background:rgba(79,142,255,0.05);transform:scale(1.03);}
+.subject-emoji{font-size:1.5rem;display:block;margin-bottom:6px;}
+.subject-name{font-size:0.82rem;color:var(--text2);font-weight:500;}
 
-  /* === SUBJECTS === */
-  .subjects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 1rem;
-    margin-top: 2.5rem;
-  }
-  .subject-pill {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1rem;
-    text-align: center;
-    transition: all 0.2s;
-    cursor: pointer;
-  }
-  .subject-pill:hover {
-    border-color: rgba(79,142,255,0.4);
-    background: rgba(79,142,255,0.05);
-    transform: scale(1.03);
-  }
-  .subject-emoji { font-size: 1.5rem; display: block; margin-bottom: 6px; }
-  .subject-name { font-size: 0.82rem; color: var(--text2); font-weight: 500; }
+/* CHAT DEMO */
+.chat-section{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.chat-demo-wrapper{display:grid;grid-template-columns:1fr 1.2fr;gap:4rem;align-items:center;}
+.chat-window{background:var(--bg3);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:0 0 60px rgba(79,142,255,0.1);}
+.chat-top{background:rgba(79,142,255,0.05);border-bottom:1px solid var(--border);padding:1rem 1.25rem;display:flex;align-items:center;gap:10px;}
+.chat-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:white;font-family:var(--font-title);flex-shrink:0;}
+.chat-name{font-weight:600;font-size:0.9rem;letter-spacing:-0.2px;}
+.chat-status{font-size:0.72rem;color:var(--accent3);display:flex;align-items:center;gap:4px;}
+.chat-status::before{content:'';width:5px;height:5px;background:var(--accent3);border-radius:50%;animation:pulse 2s infinite;}
+.chat-body{padding:1.25rem;display:flex;flex-direction:column;gap:0.85rem;max-height:320px;overflow-y:auto;}
+.msg{display:flex;gap:10px;align-items:flex-start;}
+.msg.user{flex-direction:row-reverse;}
+.msg-avatar{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;}
+.ai-av{background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;font-family:var(--font-title);}
+.user-av{background:rgba(79,142,255,0.15);color:var(--accent);}
+.msg-bubble{max-width:75%;padding:0.7rem 0.95rem;border-radius:14px;font-size:0.84rem;line-height:1.55;}
+.ai-bubble{background:rgba(79,142,255,0.08);border:1px solid rgba(79,142,255,0.12);color:var(--text);}
+.user-bubble{background:rgba(124,92,252,0.15);border:1px solid rgba(124,92,252,0.2);color:var(--text);}
+.msg-code{background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:8px;padding:0.6rem 0.8rem;margin-top:0.5rem;font-family:monospace;font-size:0.77rem;color:var(--accent3);white-space:pre;}
+.chat-input-bar{border-top:1px solid var(--border);padding:0.85rem 1.25rem;display:flex;gap:8px;}
+.chat-input{flex:1;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:8px;padding:0.55rem 0.85rem;color:var(--text2);font-size:0.83rem;font-family:var(--font-body);outline:none;transition:border-color 0.2s;}
+.chat-input:focus{border-color:rgba(79,142,255,0.4);color:var(--text);}
+.chat-send{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:8px;padding:0.55rem 1rem;color:white;font-size:0.83rem;cursor:pointer;font-weight:500;transition:opacity 0.2s;}
+.chat-send:hover{opacity:0.85;}
 
-  /* === CHAT SECTION (LANDING DEMO) === */
-  .chat-section {
-    background: var(--bg2);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-  .chat-demo-wrapper {
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 4rem;
-    align-items: center;
-  }
-  .chat-window {
-    background: var(--bg3);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 0 60px rgba(79,142,255,0.1);
-  }
-  .chat-top {
-    background: rgba(79,142,255,0.05);
-    border-bottom: 1px solid var(--border);
-    padding: 1rem 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .chat-avatar {
-    width: 32px; height: 32px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.7rem;
-    font-weight: 700;
-    color: white;
-    font-family: var(--font-title);
-    flex-shrink: 0;
-  }
-  .chat-name { font-weight: 600; font-size: 0.9rem; letter-spacing: -0.2px; }
-  .chat-status {
-    font-size: 0.72rem;
-    color: var(--accent3);
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-  .chat-status::before {
-    content: '';
-    width: 5px; height: 5px;
-    background: var(--accent3);
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
-  .chat-body { padding: 1.25rem; display: flex; flex-direction: column; gap: 0.85rem; max-height: 320px; overflow-y: auto; }
-  .msg {
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-  }
-  .msg.user { flex-direction: row-reverse; }
-  .msg-avatar {
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.65rem;
-    font-weight: 700;
-  }
-  .ai-av { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: white; font-family: var(--font-title); }
-  .user-av { background: rgba(79,142,255,0.15); color: var(--accent); }
-  .msg-bubble {
-    max-width: 75%;
-    padding: 0.7rem 0.95rem;
-    border-radius: 14px;
-    font-size: 0.84rem;
-    line-height: 1.55;
-  }
-  .ai-bubble {
-    background: rgba(79,142,255,0.08);
-    border: 1px solid rgba(79,142,255,0.12);
-    color: var(--text);
-  }
-  .user-bubble {
-    background: rgba(124,92,252,0.15);
-    border: 1px solid rgba(124,92,252,0.2);
-    color: var(--text);
-  }
-  .msg-code {
-    background: rgba(0,0,0,0.3);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0.6rem 0.8rem;
-    margin-top: 0.5rem;
-    font-family: monospace;
-    font-size: 0.77rem;
-    color: var(--accent3);
-    white-space: pre;
-  }
-  .chat-input-bar {
-    border-top: 1px solid var(--border);
-    padding: 0.85rem 1.25rem;
-    display: flex;
-    gap: 8px;
-  }
-  .chat-input {
-    flex: 1;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0.55rem 0.85rem;
-    color: var(--text2);
-    font-size: 0.83rem;
-    font-family: var(--font-body);
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .chat-input:focus { border-color: rgba(79,142,255,0.4); color: var(--text); }
-  .chat-send {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    border: none;
-    border-radius: 8px;
-    padding: 0.55rem 1rem;
-    color: white;
-    font-size: 0.83rem;
-    cursor: pointer;
-    font-weight: 500;
-    transition: opacity 0.2s;
-  }
-  .chat-send:hover { opacity: 0.85; }
-  .chat-send:disabled { opacity: 0.5; cursor: not-allowed; }
+/* MEMORY */
+.memory-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:3rem;}
+.memory-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.75rem;}
+.memory-timeline{display:flex;flex-direction:column;gap:0;margin-top:1rem;}
+.timeline-item{display:flex;gap:12px;align-items:flex-start;padding-bottom:1.2rem;position:relative;}
+.timeline-item:not(:last-child)::before{content:'';position:absolute;left:15px;top:30px;width:1px;height:calc(100% - 10px);background:var(--border);}
+.t-dot{width:30px;height:30px;border-radius:50%;background:rgba(79,142,255,0.1);border:1px solid rgba(79,142,255,0.25);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.75rem;}
+.t-content{flex:1;}
+.t-title{font-size:0.85rem;font-weight:500;margin-bottom:3px;}
+.t-sub{font-size:0.78rem;color:var(--text3);}
 
-  /* === MEMORY SECTION === */
-  .memory-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    margin-top: 3rem;
-  }
-  .memory-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 1.75rem;
-  }
-  .memory-timeline {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    margin-top: 1rem;
-  }
-  .timeline-item {
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    padding-bottom: 1.2rem;
-    position: relative;
-  }
-  .timeline-item:not(:last-child)::before {
-    content: '';
-    position: absolute;
-    left: 15px;
-    top: 30px;
-    width: 1px;
-    height: calc(100% - 10px);
-    background: var(--border);
-  }
-  .t-dot {
-    width: 30px; height: 30px;
-    border-radius: 50%;
-    background: rgba(79,142,255,0.1);
-    border: 1px solid rgba(79,142,255,0.25);
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.75rem;
-  }
-  .t-content { flex: 1; }
-  .t-title { font-size: 0.85rem; font-weight: 500; margin-bottom: 3px; }
-  .t-sub { font-size: 0.78rem; color: var(--text3); }
+/* MODES */
+.modes-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:3rem;}
+.mode-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.75rem;transition:all 0.2s;cursor:pointer;text-decoration:none;color:inherit;display:block;}
+.mode-card:hover{border-color:rgba(79,142,255,0.4);transform:translateY(-3px);}
+.mode-num{font-family:var(--font-title);font-size:0.7rem;font-weight:700;color:var(--text3);letter-spacing:2px;margin-bottom:1rem;}
+.mode-title{font-family:var(--font-title);font-size:1.2rem;font-weight:700;margin-bottom:0.5rem;letter-spacing:-0.3px;}
+.mode-desc{font-size:0.85rem;color:var(--text2);line-height:1.6;}
 
-  /* === MODES === */
-  .modes-row {
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 1rem;
-    margin-top: 3rem;
-  }
-  .mode-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 1.75rem;
-    transition: all 0.2s;
-    cursor: pointer;
-    text-decoration: none;
-    color: inherit;
-    display: block;
-  }
-  .mode-card:hover {
-    border-color: rgba(79,142,255,0.4);
-    transform: translateY(-3px);
-  }
-  .mode-num {
-    font-family: var(--font-title);
-    font-size: 0.7rem;
-    font-weight: 700;
-    color: var(--text3);
-    letter-spacing: 2px;
-    margin-bottom: 1rem;
-  }
-  .mode-title {
-    font-family: var(--font-title);
-    font-size: 1.2rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.3px;
-  }
-  .mode-desc { font-size: 0.85rem; color: var(--text2); line-height: 1.6; }
+/* FINAL CTA */
+.final-cta{text-align:center;padding:8rem 2rem;position:relative;z-index:1;}
+.final-cta::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:400px;background:radial-gradient(ellipse,rgba(124,92,252,0.15) 0%,transparent 70%);pointer-events:none;}
+.final-cta h2{font-family:var(--font-title);font-size:clamp(2rem,5vw,4rem);font-weight:800;letter-spacing:-2px;line-height:1.1;margin-bottom:1.5rem;}
+.final-cta p{color:var(--text2);font-size:1.05rem;margin-bottom:2.5rem;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.7;}
 
-  /* === FINAL CTA === */
-  .final-cta {
-    text-align: center;
-    padding: 8rem 2rem;
-    position: relative;
-    z-index: 1;
-  }
-  .final-cta::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 800px; height: 400px;
-    background: radial-gradient(ellipse, rgba(124,92,252,0.15) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .final-cta h2 {
-    font-family: var(--font-title);
-    font-size: clamp(2rem, 5vw, 4rem);
-    font-weight: 800;
-    letter-spacing: -2px;
-    line-height: 1.1;
-    margin-bottom: 1.5rem;
-  }
-  .final-cta p {
-    color: var(--text2);
-    font-size: 1.05rem;
-    margin-bottom: 2.5rem;
-    max-width: 480px;
-    margin-left: auto;
-    margin-right: auto;
-    line-height: 1.7;
-  }
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:3rem 2rem;position:relative;z-index:1;}
+.footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;}
+.footer-brand p{font-size:0.85rem;color:var(--text3);line-height:1.65;margin-top:0.75rem;max-width:260px;}
+.footer-col h4{font-family:var(--font-title);font-size:0.8rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text2);margin-bottom:1rem;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.55rem;}
+.footer-col a{color:var(--text3);text-decoration:none;font-size:0.85rem;transition:color 0.2s;}
+.footer-col a:hover{color:var(--text);}
+.footer-bottom{max-width:1100px;margin:2rem auto 0;padding-top:2rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:0.8rem;color:var(--text3);}
 
-  /* === FOOTER === */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 3rem 2rem;
-    position: relative;
-    z-index: 1;
-  }
-  .footer-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 3rem;
-  }
-  .footer-brand p {
-    font-size: 0.85rem;
-    color: var(--text3);
-    line-height: 1.65;
-    margin-top: 0.75rem;
-    max-width: 260px;
-  }
-  .footer-col h4 {
-    font-family: var(--font-title);
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--text2);
-    margin-bottom: 1rem;
-  }
-  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
-  .footer-col a { color: var(--text3); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
-  .footer-col a:hover { color: var(--text); }
-  .footer-bottom {
-    max-width: 1100px;
-    margin: 2rem auto 0;
-    padding-top: 2rem;
-    border-top: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.8rem;
-    color: var(--text3);
-  }
+/* ====== AUTH MODAL ====== */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);z-index:500;display:none;align-items:center;justify-content:center;}
+.modal-overlay.active{display:flex;}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:2.5rem;width:100%;max-width:420px;position:relative;box-shadow:0 0 80px rgba(79,142,255,0.15);}
+.modal h2{font-family:var(--font-title);font-size:1.6rem;font-weight:800;letter-spacing:-0.5px;margin-bottom:0.5rem;}
+.modal p{color:var(--text2);font-size:0.88rem;margin-bottom:1.75rem;line-height:1.6;}
+.modal-tabs{display:flex;gap:0;margin-bottom:1.75rem;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:4px;}
+.modal-tab{flex:1;padding:0.5rem;border:none;background:none;color:var(--text2);font-size:0.85rem;font-family:var(--font-body);cursor:pointer;border-radius:7px;transition:all 0.2s;}
+.modal-tab.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;font-weight:500;}
+.form-group{margin-bottom:1.1rem;}
+.form-group label{display:block;font-size:0.8rem;font-weight:500;color:var(--text2);margin-bottom:0.4rem;letter-spacing:0.3px;}
+.form-input{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:9px;padding:0.7rem 1rem;color:var(--text);font-size:0.88rem;font-family:var(--font-body);outline:none;transition:border-color 0.2s;}
+.form-input:focus{border-color:rgba(79,142,255,0.5);}
+.form-input::placeholder{color:var(--text3);}
+.modal-error{background:rgba(255,80,80,0.08);border:1px solid rgba(255,80,80,0.25);color:#ff8080;padding:0.6rem 0.9rem;border-radius:8px;font-size:0.82rem;margin-bottom:1rem;display:none;}
+.modal-error.show{display:block;}
+.modal-close{position:absolute;top:1.25rem;right:1.25rem;background:none;border:none;color:var(--text3);cursor:pointer;font-size:1.1rem;transition:color 0.2s;}
+.modal-close:hover{color:var(--text);}
 
-  /* === FULL CHAT PAGE === */
-  #chat-page {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: var(--bg);
-    z-index: 200;
-    flex-direction: column;
-  }
-  #chat-page.active { display: flex; }
+/* ====== FULL CHAT PAGE ====== */
+#chat-page{display:none;position:fixed;inset:0;background:var(--bg);z-index:200;flex-direction:column;}
+#chat-page.active{display:flex;}
+.chat-page-nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;background:rgba(5,8,16,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);flex-shrink:0;}
+.chat-back{background:none;border:1px solid var(--border);color:var(--text2);padding:0.4rem 1rem;border-radius:8px;cursor:pointer;font-size:0.85rem;font-family:var(--font-body);transition:all 0.2s;}
+.chat-back:hover{border-color:rgba(79,142,255,0.4);color:var(--text);}
+.chat-page-inner{display:flex;flex:1;overflow:hidden;}
 
-  .chat-page-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem 2rem;
-    background: rgba(5,8,16,0.9);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
-  }
-  .chat-page-nav .nav-logo { font-size: 1.1rem; }
-  .chat-back {
-    background: none;
-    border: 1px solid var(--border);
-    color: var(--text2);
-    padding: 0.4rem 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    font-family: var(--font-body);
-    transition: all 0.2s;
-  }
-  .chat-back:hover { border-color: rgba(79,142,255,0.4); color: var(--text); }
+/* Sidebar */
+.chat-sidebar{width:270px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
+.sidebar-header{padding:1.25rem 1rem 0.75rem;border-bottom:1px solid var(--border);}
+.sidebar-header h3{font-family:var(--font-title);font-size:0.75rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text2);margin-bottom:0.75rem;}
+.new-chat-btn{width:100%;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:8px;padding:0.6rem;color:white;font-size:0.82rem;font-weight:500;cursor:pointer;font-family:var(--font-body);transition:opacity 0.2s;}
+.new-chat-btn:hover{opacity:0.85;}
+.sidebar-memory{padding:0.75rem 1rem;flex:1;overflow-y:auto;}
+.memory-section-title{font-size:0.68rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:0.5rem;margin-top:0.75rem;}
+.memory-item{background:rgba(79,142,255,0.06);border:1px solid var(--border);border-radius:8px;padding:0.6rem 0.75rem;margin-bottom:0.4rem;font-size:0.78rem;color:var(--text2);line-height:1.4;cursor:pointer;transition:all 0.2s;}
+.memory-item:hover{border-color:rgba(79,142,255,0.35);background:rgba(79,142,255,0.1);color:var(--text);}
+.memory-item-time{font-size:0.68rem;color:var(--text3);margin-top:3px;}
+.mode-selector{padding:0.75rem 1rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:0.4rem;}
+.mode-selector-title{font-size:0.68rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:0.25rem;}
+.mode-btn{background:none;border:1px solid var(--border);border-radius:7px;padding:0.45rem 0.7rem;color:var(--text2);font-size:0.78rem;cursor:pointer;font-family:var(--font-body);text-align:left;transition:all 0.2s;display:flex;align-items:center;gap:7px;}
+.mode-btn:hover,.mode-btn.active{border-color:rgba(79,142,255,0.4);background:rgba(79,142,255,0.08);color:var(--text);}
+.mode-btn.active{border-color:rgba(79,142,255,0.5);}
 
-  .chat-page-inner {
-    display: flex;
-    flex: 1;
-    overflow: hidden;
-  }
+/* User profile in sidebar */
+.sidebar-user{padding:0.75rem 1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.sidebar-user-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:white;font-family:var(--font-title);flex-shrink:0;}
+.sidebar-user-name{font-size:0.85rem;font-weight:600;}
+.sidebar-user-level{font-size:0.72rem;color:var(--text3);}
 
-  /* Sidebar */
-  .chat-sidebar {
-    width: 260px;
-    flex-shrink: 0;
-    background: var(--bg2);
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-  .sidebar-header {
-    padding: 1.25rem 1rem 0.75rem;
-    border-bottom: 1px solid var(--border);
-  }
-  .sidebar-header h3 {
-    font-family: var(--font-title);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--text2);
-    margin-bottom: 0.75rem;
-  }
-  .new-chat-btn {
-    width: 100%;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    border: none;
-    border-radius: 8px;
-    padding: 0.6rem;
-    color: white;
-    font-size: 0.82rem;
-    font-weight: 500;
-    cursor: pointer;
-    font-family: var(--font-body);
-    transition: opacity 0.2s;
-  }
-  .new-chat-btn:hover { opacity: 0.85; }
+/* Progression stats in sidebar */
+.sidebar-stats{padding:0.75rem 1rem;border-bottom:1px solid var(--border);}
+.stat-bar-row{margin-bottom:0.6rem;}
+.stat-bar-label{display:flex;justify-content:space-between;font-size:0.72rem;color:var(--text2);margin-bottom:3px;}
+.stat-bar-track{background:rgba(79,142,255,0.1);border-radius:100px;height:4px;overflow:hidden;}
+.stat-bar-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width 0.5s ease;}
 
-  .sidebar-memory {
-    padding: 0.75rem 1rem;
-    flex: 1;
-    overflow-y: auto;
-  }
-  .memory-section-title {
-    font-size: 0.68rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--text3);
-    margin-bottom: 0.5rem;
-    margin-top: 0.75rem;
-  }
-  .memory-item {
-    background: rgba(79,142,255,0.06);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0.6rem 0.75rem;
-    margin-bottom: 0.4rem;
-    font-size: 0.78rem;
-    color: var(--text2);
-    line-height: 1.4;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .memory-item:hover { border-color: rgba(79,142,255,0.35); background: rgba(79,142,255,0.1); color: var(--text); }
-  .memory-item-time { font-size: 0.68rem; color: var(--text3); margin-top: 3px; }
+/* Main chat area */
+.chat-main{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative;}
+.chat-main-header{padding:1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.chat-main-header-left{display:flex;align-items:center;gap:10px;}
+.chat-main-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:white;font-family:var(--font-title);}
+.chat-main-name{font-weight:600;font-size:0.95rem;font-family:var(--font-title);}
+.chat-main-status{font-size:0.75rem;color:var(--accent3);display:flex;align-items:center;gap:5px;}
+.chat-main-status::before{content:'';width:5px;height:5px;background:var(--accent3);border-radius:50%;animation:pulse 2s infinite;}
+.chat-header-actions{display:flex;gap:8px;}
+.header-action-btn{background:none;border:1px solid var(--border);color:var(--text2);padding:0.35rem 0.75rem;border-radius:7px;cursor:pointer;font-size:0.75rem;font-family:var(--font-body);transition:all 0.2s;}
+.header-action-btn:hover{border-color:rgba(79,142,255,0.4);color:var(--text);}
 
-  .mode-selector {
-    padding: 0.75rem 1rem;
-    border-top: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-  }
-  .mode-selector-title {
-    font-size: 0.68rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--text3);
-    margin-bottom: 0.25rem;
-  }
-  .mode-btn {
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    padding: 0.45rem 0.7rem;
-    color: var(--text2);
-    font-size: 0.78rem;
-    cursor: pointer;
-    font-family: var(--font-body);
-    text-align: left;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-  }
-  .mode-btn:hover, .mode-btn.active {
-    border-color: rgba(79,142,255,0.4);
-    background: rgba(79,142,255,0.08);
-    color: var(--text);
-  }
-  .mode-btn.active { border-color: rgba(79,142,255,0.5); }
+.chat-messages{flex:1;overflow-y:auto;padding:1.5rem;display:flex;flex-direction:column;gap:1rem;scroll-behavior:smooth;}
+.chat-messages::-webkit-scrollbar{width:4px;}
+.chat-messages::-webkit-scrollbar-track{background:transparent;}
+.chat-messages::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
 
-  /* Main chat area */
-  .chat-main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    position: relative;
-  }
-  .chat-main-header {
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-shrink: 0;
-  }
-  .chat-main-avatar {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: white;
-    font-family: var(--font-title);
-  }
-  .chat-main-info {}
-  .chat-main-name { font-weight: 600; font-size: 0.95rem; font-family: var(--font-title); }
-  .chat-main-status { font-size: 0.75rem; color: var(--accent3); display: flex; align-items: center; gap: 5px; }
-  .chat-main-status::before {
-    content: '';
-    width: 5px; height: 5px;
-    background: var(--accent3);
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
+.cmsg{display:flex;gap:10px;align-items:flex-start;animation:fadeUp 0.3s ease both;max-width:720px;}
+.cmsg.user{flex-direction:row-reverse;margin-left:auto;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.cmsg-av{width:30px;height:30px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.68rem;font-weight:700;}
+.cmsg-bubble{padding:0.75rem 1rem;border-radius:14px;font-size:0.9rem;line-height:1.65;white-space:pre-wrap;}
+.cmsg.user .cmsg-bubble{background:rgba(124,92,252,0.15);border:1px solid rgba(124,92,252,0.25);color:var(--text);border-bottom-right-radius:4px;}
+.cmsg.ai .cmsg-bubble{background:rgba(79,142,255,0.07);border:1px solid rgba(79,142,255,0.15);color:var(--text);border-bottom-left-radius:4px;}
+.cmsg-bubble code{background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:4px;padding:1px 5px;font-family:monospace;font-size:0.85em;color:var(--accent3);}
+.cmsg-bubble pre{background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:8px;padding:0.75rem 1rem;margin-top:0.5rem;font-family:monospace;font-size:0.82rem;color:var(--accent3);overflow-x:auto;white-space:pre;}
+.cmsg-bubble h3{font-family:var(--font-title);font-size:1rem;font-weight:700;margin:0.75rem 0 0.35rem;color:var(--text);}
+.cmsg-bubble ul,.cmsg-bubble ol{padding-left:1.2rem;margin:0.4rem 0;}
+.cmsg-bubble li{margin-bottom:0.25rem;}
+.cmsg-bubble strong{color:var(--text);font-weight:600;}
+.cmsg-bubble .math-block{background:rgba(0,229,192,0.06);border:1px solid rgba(0,229,192,0.2);border-radius:8px;padding:0.5rem 0.85rem;margin:0.5rem 0;font-family:monospace;color:var(--accent3);font-size:0.88rem;}
+.cmsg-bubble .tip-box{background:rgba(79,142,255,0.06);border-left:3px solid var(--accent);padding:0.5rem 0.85rem;margin:0.5rem 0;border-radius:0 8px 8px 0;font-size:0.85rem;}
 
-  .chat-messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    scroll-behavior: smooth;
-  }
-  .chat-messages::-webkit-scrollbar { width: 4px; }
-  .chat-messages::-webkit-scrollbar-track { background: transparent; }
-  .chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.typing-indicator{display:flex;gap:4px;align-items:center;padding:0.75rem 1rem;}
+.typing-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:typingBounce 1.2s infinite;}
+.typing-dot:nth-child(2){animation-delay:0.2s;}
+.typing-dot:nth-child(3){animation-delay:0.4s;}
+@keyframes typingBounce{0%,60%,100%{transform:translateY(0);opacity:0.4;}30%{transform:translateY(-6px);opacity:1;}}
 
-  .cmsg {
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-    animation: fadeUp 0.3s ease both;
-    max-width: 720px;
-  }
-  .cmsg.user { flex-direction: row-reverse; margin-left: auto; }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .cmsg-av {
-    width: 30px; height: 30px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.68rem;
-    font-weight: 700;
-  }
-  .cmsg-bubble {
-    padding: 0.75rem 1rem;
-    border-radius: 14px;
-    font-size: 0.9rem;
-    line-height: 1.65;
-    white-space: pre-wrap;
-  }
-  .cmsg.user .cmsg-bubble {
-    background: rgba(124,92,252,0.15);
-    border: 1px solid rgba(124,92,252,0.25);
-    color: var(--text);
-    border-bottom-right-radius: 4px;
-  }
-  .cmsg.ai .cmsg-bubble {
-    background: rgba(79,142,255,0.07);
-    border: 1px solid rgba(79,142,255,0.15);
-    color: var(--text);
-    border-bottom-left-radius: 4px;
-  }
-  .cmsg-bubble code {
-    background: rgba(0,0,0,0.4);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 1px 5px;
-    font-family: monospace;
-    font-size: 0.85em;
-    color: var(--accent3);
-  }
-  .cmsg-bubble pre {
-    background: rgba(0,0,0,0.4);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0.75rem 1rem;
-    margin-top: 0.5rem;
-    font-family: monospace;
-    font-size: 0.82rem;
-    color: var(--accent3);
-    overflow-x: auto;
-    white-space: pre;
-  }
+/* Welcome screen */
+.welcome-screen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;gap:1.5rem;}
+.welcome-logo{width:64px;height:64px;border-radius:18px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-family:var(--font-title);font-weight:800;font-size:1.1rem;color:white;box-shadow:0 0 40px rgba(79,142,255,0.3);}
+.welcome-title{font-family:var(--font-title);font-size:1.6rem;font-weight:700;letter-spacing:-0.5px;}
+.welcome-sub{font-size:0.9rem;color:var(--text2);max-width:400px;line-height:1.7;}
+.suggestions-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0.75rem;width:100%;max-width:520px;}
+.suggestion-chip{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:0.75rem 1rem;font-size:0.82rem;color:var(--text2);cursor:pointer;text-align:left;transition:all 0.2s;line-height:1.4;}
+.suggestion-chip:hover{border-color:rgba(79,142,255,0.4);background:rgba(79,142,255,0.07);color:var(--text);}
+.suggestion-chip span{display:block;font-size:1.1rem;margin-bottom:4px;}
 
-  .typing-indicator {
-    display: flex;
-    gap: 4px;
-    align-items: center;
-    padding: 0.75rem 1rem;
-  }
-  .typing-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-    animation: typingBounce 1.2s infinite;
-  }
-  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes typingBounce {
-    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-    30% { transform: translateY(-6px); opacity: 1; }
-  }
+/* Input area */
+.chat-input-area{padding:1rem 1.5rem;border-top:1px solid var(--border);flex-shrink:0;background:var(--bg);}
+.chat-input-row{display:flex;gap:10px;align-items:flex-end;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:14px;padding:0.75rem 1rem;transition:border-color 0.2s;}
+.chat-input-row:focus-within{border-color:rgba(79,142,255,0.4);}
+#mainChatInput{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:0.9rem;font-family:var(--font-body);resize:none;max-height:120px;min-height:24px;line-height:1.5;}
+#mainChatInput::placeholder{color:var(--text3);}
+.send-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:opacity 0.2s,transform 0.1s;}
+.send-btn:hover{opacity:0.85;transform:scale(1.05);}
+.send-btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+.send-btn svg{width:15px;height:15px;}
+.chat-hint{font-size:0.73rem;color:var(--text3);text-align:center;margin-top:0.5rem;}
 
-  .welcome-screen {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 2rem;
-    gap: 1.5rem;
-  }
-  .welcome-logo {
-    width: 64px; height: 64px;
-    border-radius: 18px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    display: flex; align-items: center; justify-content: center;
-    font-family: var(--font-title);
-    font-weight: 800;
-    font-size: 1.1rem;
-    color: white;
-    box-shadow: 0 0 40px rgba(79,142,255,0.3);
-  }
-  .welcome-title {
-    font-family: var(--font-title);
-    font-size: 1.6rem;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-  }
-  .welcome-sub { font-size: 0.9rem; color: var(--text2); max-width: 400px; line-height: 1.7; }
-  .suggestions-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
-    width: 100%;
-    max-width: 480px;
-  }
-  .suggestion-chip {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 0.75rem 1rem;
-    font-size: 0.82rem;
-    color: var(--text2);
-    cursor: pointer;
-    text-align: left;
-    transition: all 0.2s;
-    line-height: 1.4;
-  }
-  .suggestion-chip:hover {
-    border-color: rgba(79,142,255,0.4);
-    background: rgba(79,142,255,0.07);
-    color: var(--text);
-  }
-  .suggestion-chip span { display: block; font-size: 1.1rem; margin-bottom: 4px; }
+/* Quick tools bar */
+.quick-tools{display:flex;gap:0.5rem;margin-bottom:0.6rem;flex-wrap:wrap;}
+.quick-tool-btn{background:rgba(79,142,255,0.06);border:1px solid var(--border);color:var(--text2);padding:0.3rem 0.7rem;border-radius:6px;cursor:pointer;font-size:0.75rem;font-family:var(--font-body);transition:all 0.2s;display:flex;align-items:center;gap:5px;}
+.quick-tool-btn:hover{border-color:rgba(79,142,255,0.4);background:rgba(79,142,255,0.1);color:var(--text);}
 
-  .chat-input-area {
-    padding: 1rem 1.5rem;
-    border-top: 1px solid var(--border);
-    flex-shrink: 0;
-    background: var(--bg);
-  }
-  .chat-input-row {
-    display: flex;
-    gap: 10px;
-    align-items: flex-end;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 0.75rem 1rem;
-    transition: border-color 0.2s;
-  }
-  .chat-input-row:focus-within { border-color: rgba(79,142,255,0.4); }
-  #mainChatInput {
-    flex: 1;
-    background: none;
-    border: none;
-    outline: none;
-    color: var(--text);
-    font-size: 0.9rem;
-    font-family: var(--font-body);
-    resize: none;
-    max-height: 120px;
-    min-height: 24px;
-    line-height: 1.5;
-  }
-  #mainChatInput::placeholder { color: var(--text3); }
-  .send-btn {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    border: none;
-    border-radius: 8px;
-    width: 34px; height: 34px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    flex-shrink: 0;
-    transition: opacity 0.2s, transform 0.1s;
-  }
-  .send-btn:hover { opacity: 0.85; transform: scale(1.05); }
-  .send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
-  .send-btn svg { width: 15px; height: 15px; }
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
 
-  .chat-hint { font-size: 0.73rem; color: var(--text3); text-align: center; margin-top: 0.5rem; }
+/* RESPONSIVE */
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem;}
+  .nav-links{display:none;}
+  .chat-demo-wrapper{grid-template-columns:1fr;}
+  .memory-grid{grid-template-columns:1fr;}
+  .modes-row{grid-template-columns:1fr;}
+  .footer-inner{grid-template-columns:1fr 1fr;}
+  .chat-sidebar{display:none;}
+  .suggestions-grid{grid-template-columns:1fr;}
+}
 
-  /* === SCROLL FADE IN === */
-  .reveal {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* === RESPONSIVE === */
-  @media (max-width: 768px) {
-    nav { padding: 1rem 1.5rem; }
-    .nav-links { display: none; }
-    .chat-demo-wrapper { grid-template-columns: 1fr; }
-    .memory-grid { grid-template-columns: 1fr; }
-    .modes-row { grid-template-columns: 1fr; }
-    .footer-inner { grid-template-columns: 1fr 1fr; }
-    .chat-sidebar { display: none; }
-    .suggestions-grid { grid-template-columns: 1fr; }
-  }
+/* QUIZ card */
+.quiz-card{background:rgba(79,142,255,0.05);border:1px solid rgba(79,142,255,0.2);border-radius:12px;padding:1rem;margin-top:0.75rem;}
+.quiz-question{font-weight:600;margin-bottom:0.75rem;font-size:0.88rem;}
+.quiz-options{display:flex;flex-direction:column;gap:0.4rem;}
+.quiz-option{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:8px;padding:0.5rem 0.75rem;cursor:pointer;font-size:0.83rem;transition:all 0.2s;text-align:left;color:var(--text2);font-family:var(--font-body);}
+.quiz-option:hover{border-color:rgba(79,142,255,0.4);color:var(--text);}
+.quiz-option.correct{background:rgba(0,229,192,0.1);border-color:rgba(0,229,192,0.4);color:var(--accent3);}
+.quiz-option.wrong{background:rgba(255,80,80,0.08);border-color:rgba(255,80,80,0.3);color:#ff8080;}
 </style>
 </head>
 <body>
 
-<!-- ============================================================ -->
+<!-- ============================== -->
+<!-- AUTH MODAL -->
+<!-- ============================== -->
+<div class="modal-overlay" id="auth-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAuthModal()">✕</button>
+    <h2>Bienvenue sur <span style="background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Creo IA</span></h2>
+    <p>Crée ton compte pour sauvegarder tes révisions, ta progression et ta mémoire IA.</p>
+    <div class="modal-tabs">
+      <button class="modal-tab active" onclick="switchTab('login')">Connexion</button>
+      <button class="modal-tab" onclick="switchTab('register')">Créer un compte</button>
+    </div>
+    <div id="modal-error" class="modal-error"></div>
+
+    <!-- LOGIN -->
+    <div id="tab-login">
+      <div class="form-group">
+        <label>Pseudo</label>
+        <input class="form-input" id="login-username" type="text" placeholder="Ton pseudo..." autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label>Code PIN (4 chiffres)</label>
+        <input class="form-input" id="login-pin" type="password" placeholder="••••" maxlength="4" pattern="[0-9]*" inputmode="numeric">
+      </div>
+      <button class="btn-primary" style="width:100%;margin-top:0.5rem" onclick="doLogin()">Se connecter →</button>
+    </div>
+
+    <!-- REGISTER -->
+    <div id="tab-register" style="display:none">
+      <div class="form-group">
+        <label>Pseudo (visible)</label>
+        <input class="form-input" id="reg-username" type="text" placeholder="Choisis un pseudo..." maxlength="20" autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label>Prénom (optionnel)</label>
+        <input class="form-input" id="reg-firstname" type="text" placeholder="Ton prénom...">
+      </div>
+      <div class="form-group">
+        <label>Niveau scolaire</label>
+        <select class="form-input" id="reg-level" style="cursor:pointer">
+          <option value="6eme">6ème</option>
+          <option value="5eme">5ème</option>
+          <option value="4eme">4ème</option>
+          <option value="3eme" selected>3ème (Brevet)</option>
+          <option value="2nde">2nde</option>
+          <option value="1ere">1ère</option>
+          <option value="terminale">Terminale</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Code PIN (4 chiffres)</label>
+        <input class="form-input" id="reg-pin" type="password" placeholder="••••" maxlength="4" pattern="[0-9]*" inputmode="numeric">
+      </div>
+      <button class="btn-primary" style="width:100%;margin-top:0.5rem" onclick="doRegister()">Créer mon compte →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== -->
 <!-- LANDING PAGE -->
-<!-- ============================================================ -->
+<!-- ============================== -->
 <div id="landing-page">
 
-<!-- NAV -->
 <nav>
   <a class="nav-logo" onclick="showLanding()">
     <span>Creo</span> IA<sup class="nav-badge">BETA</sup>
@@ -1075,41 +366,29 @@
     <li><a href="#code">Code</a></li>
     <li><a href="#memoire">Mémoire</a></li>
     <li><a href="#modes">Modes</a></li>
-    <li><a onclick="openChat()" class="nav-cta" style="cursor:pointer">Lancer l'IA →</a></li>
+    <li><a onclick="openChatOrAuth()" class="nav-cta" style="cursor:pointer">Lancer l'IA →</a></li>
+    <li><div id="nav-user-btn" onclick="openChatOrAuth()" style="display:none"><div class="nav-avatar" id="nav-avatar-txt">?</div><span id="nav-username-txt">Mon compte</span></div></li>
   </ul>
 </nav>
 
-<!-- HERO -->
 <div class="hero">
   <div class="hero-glow"></div>
   <div class="hero-chip">Ton IA personnelle — disponible 24h/24</div>
   <h1>L'IA qui t'accompagne<br><span class="grad">jusqu'au Brevet.</span></h1>
   <p>Creo IA retient tout ce que tu lui dis. Elle s'adapte à ton niveau, corrige tes erreurs, t'explique les maths, le français, l'histoire et même le code. Ton prof, ta mémoire, ton assistant — en un seul endroit.</p>
   <div class="hero-btns">
-    <button class="btn-primary" onclick="openChat()">⚡ Commencer gratuitement</button>
+    <button class="btn-primary" onclick="openChatOrAuth()">⚡ Commencer gratuitement</button>
     <a href="#demo" class="btn-secondary">Voir la démo →</a>
   </div>
   <div class="stats">
-    <div class="stat">
-      <div class="stat-num">9</div>
-      <div class="stat-label">matières du brevet</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">∞</div>
-      <div class="stat-label">mémoire persistante</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">24/7</div>
-      <div class="stat-label">disponible</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">0€</div>
-      <div class="stat-label">pour commencer</div>
-    </div>
+    <div class="stat"><div class="stat-num">9</div><div class="stat-label">matières du brevet</div></div>
+    <div class="stat"><div class="stat-num">∞</div><div class="stat-label">mémoire persistante</div></div>
+    <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">disponible</div></div>
+    <div class="stat"><div class="stat-num">0€</div><div class="stat-label">pour commencer</div></div>
   </div>
 </div>
 
-<!-- BREVET SECTION -->
+<!-- BREVET -->
 <section id="brevet" class="pad">
   <div class="container">
     <div class="reveal">
@@ -1118,58 +397,28 @@
       <p class="section-sub">Elle connaît tout le programme de 3ème. Pose-lui n'importe quelle question — elle t'explique pas à pas, et retient ton niveau pour mieux t'aider la prochaine fois.</p>
     </div>
     <div class="brevet-grid">
-      <div class="feature-card reveal">
-        <div class="feature-icon blue">📐</div>
-        <div class="feature-title">Maths & Géométrie</div>
-        <div class="feature-desc">Équations, théorème de Pythagore, statistiques, probabilités — avec des explications étape par étape adaptées à ton niveau.</div>
-        <span class="feature-tag">Brevet obligatoire</span>
-      </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon purple">📖</div>
-        <div class="feature-title">Français & Rédaction</div>
-        <div class="feature-desc">Analyse de textes, orthographe, conjugaison, dissertations. Creo IA corrige ta copie et t'explique pourquoi c'est faux.</div>
-        <span class="feature-tag">Brevet obligatoire</span>
-      </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon teal">🌍</div>
-        <div class="feature-title">Histoire-Géographie</div>
-        <div class="feature-desc">Dates clés, personnages historiques, cartes, repères chronologiques — tout ce que tu dois savoir pour le jour J.</div>
-        <span class="feature-tag">Brevet obligatoire</span>
-      </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon blue">🔬</div>
-        <div class="feature-title">Sciences (SVT & Physique)</div>
-        <div class="feature-desc">Corps humain, énergie, lumière, chimie, écologie. Des schémas, des formules, des fiches de révision générées à la demande.</div>
-        <span class="feature-tag">Programme complet</span>
-      </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon amber">🇬🇧</div>
-        <div class="feature-title">Anglais & Langues</div>
-        <div class="feature-desc">Grammaire, vocabulaire, compréhension écrite. Tu peux même t'entraîner à parler avec Creo IA en anglais !</div>
-        <span class="feature-tag">LV1 & LV2</span>
-      </div>
-      <div class="feature-card reveal">
-        <div class="feature-icon purple">🎯</div>
-        <div class="feature-title">Annales & Exercices</div>
-        <div class="feature-desc">Des milliers d'exercices au format brevet. Creo IA adapte la difficulté selon tes résultats et suit ta progression.</div>
-        <span class="feature-tag">Préparation ciblée</span>
-      </div>
+      <div class="feature-card reveal"><div class="feature-icon blue">📐</div><div class="feature-title">Maths & Géométrie</div><div class="feature-desc">Équations, théorème de Pythagore, statistiques, probabilités — avec des explications étape par étape adaptées à ton niveau.</div><span class="feature-tag">Brevet obligatoire</span></div>
+      <div class="feature-card reveal"><div class="feature-icon purple">📖</div><div class="feature-title">Français & Rédaction</div><div class="feature-desc">Analyse de textes, orthographe, conjugaison, dissertations. Creo IA corrige ta copie et t'explique pourquoi c'est faux.</div><span class="feature-tag">Brevet obligatoire</span></div>
+      <div class="feature-card reveal"><div class="feature-icon teal">🌍</div><div class="feature-title">Histoire-Géographie</div><div class="feature-desc">Dates clés, personnages historiques, cartes, repères chronologiques — tout ce que tu dois savoir pour le jour J.</div><span class="feature-tag">Brevet obligatoire</span></div>
+      <div class="feature-card reveal"><div class="feature-icon blue">🔬</div><div class="feature-title">Sciences (SVT & Physique)</div><div class="feature-desc">Corps humain, énergie, lumière, chimie, écologie. Des schémas, des formules, des fiches de révision générées à la demande.</div><span class="feature-tag">Programme complet</span></div>
+      <div class="feature-card reveal"><div class="feature-icon amber">🇬🇧</div><div class="feature-title">Anglais & Langues</div><div class="feature-desc">Grammaire, vocabulaire, compréhension écrite. Tu peux même t'entraîner à parler avec Creo IA en anglais !</div><span class="feature-tag">LV1 & LV2</span></div>
+      <div class="feature-card reveal"><div class="feature-icon purple">🎯</div><div class="feature-title">Quiz & Exercices</div><div class="feature-desc">Des exercices interactifs au format brevet générés par l'IA. Elle adapte la difficulté selon tes résultats et suit ta progression.</div><span class="feature-tag">Préparation ciblée</span></div>
     </div>
     <div class="subjects-grid reveal" style="margin-top:2rem">
-      <div class="subject-pill" onclick="openChatWith('Aide-moi en Maths')"><span class="subject-emoji">📐</span><div class="subject-name">Maths</div></div>
-      <div class="subject-pill" onclick="openChatWith('Aide-moi en Français')"><span class="subject-emoji">📖</span><div class="subject-name">Français</div></div>
-      <div class="subject-pill" onclick="openChatWith('Aide-moi en Histoire')"><span class="subject-emoji">🌍</span><div class="subject-name">Histoire</div></div>
-      <div class="subject-pill" onclick="openChatWith('Aide-moi en SVT')"><span class="subject-emoji">🔬</span><div class="subject-name">SVT</div></div>
-      <div class="subject-pill" onclick="openChatWith('Aide-moi en Physique-Chimie')"><span class="subject-emoji">⚗️</span><div class="subject-name">Physique</div></div>
-      <div class="subject-pill" onclick="openChatWith('Aide-moi en Anglais')"><span class="subject-emoji">🇬🇧</span><div class="subject-name">Anglais</div></div>
+      <div class="subject-pill" onclick="openChatWith('Aide-moi en Maths pour le brevet')"><span class="subject-emoji">📐</span><div class="subject-name">Maths</div></div>
+      <div class="subject-pill" onclick="openChatWith('Aide-moi en Français pour le brevet')"><span class="subject-emoji">📖</span><div class="subject-name">Français</div></div>
+      <div class="subject-pill" onclick="openChatWith('Aide-moi en Histoire-Géo pour le brevet')"><span class="subject-emoji">🌍</span><div class="subject-name">Histoire</div></div>
+      <div class="subject-pill" onclick="openChatWith('Aide-moi en SVT pour le brevet')"><span class="subject-emoji">🔬</span><div class="subject-name">SVT</div></div>
+      <div class="subject-pill" onclick="openChatWith('Aide-moi en Physique-Chimie pour le brevet')"><span class="subject-emoji">⚗️</span><div class="subject-name">Physique</div></div>
+      <div class="subject-pill" onclick="openChatWith('Aide-moi en Anglais pour le brevet')"><span class="subject-emoji">🇬🇧</span><div class="subject-name">Anglais</div></div>
       <div class="subject-pill" onclick="openChatWith('Aide-moi en Géographie')"><span class="subject-emoji">🗺️</span><div class="subject-name">Géo</div></div>
-      <div class="subject-pill" onclick="openChatWith('Aide-moi en Arts')"><span class="subject-emoji">🎨</span><div class="subject-name">Arts</div></div>
+      <div class="subject-pill" onclick="openChatWith('Aide-moi en Arts plastiques')"><span class="subject-emoji">🎨</span><div class="subject-name">Arts</div></div>
       <div class="subject-pill" onclick="openChatWith('Aide-moi en Technologie')"><span class="subject-emoji">💻</span><div class="subject-name">Techno</div></div>
     </div>
   </div>
 </section>
 
-<!-- DEMO CHAT (static demo) -->
+<!-- DEMO -->
 <section class="chat-section pad" id="demo">
   <div class="container">
     <div class="chat-demo-wrapper">
@@ -1178,61 +427,35 @@
         <h2 class="section-title">Une IA qui<br>répond vraiment.</h2>
         <p class="section-sub" style="margin-bottom:1.5rem">Pas de copié-collé de Wikipédia. Creo IA comprend ta question, adapte son explication à ton niveau, et garde le contexte de toute la conversation.</p>
         <div style="display:flex;flex-direction:column;gap:0.75rem">
-          <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem;color:var(--text2)">
-            <span style="color:var(--accent3);font-size:0.8rem">✓</span> Répond en quelques secondes
-          </div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem;color:var(--text2)">
-            <span style="color:var(--accent3);font-size:0.8rem">✓</span> Se souvient de tes discussions passées
-          </div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem;color:var(--text2)">
-            <span style="color:var(--accent3);font-size:0.8rem">✓</span> Corrige tes erreurs avec bienveillance
-          </div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem;color:var(--text2)">
-            <span style="color:var(--accent3);font-size:0.8rem">✓</span> Génère des fiches de révision
-          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem;color:var(--text2)"><span style="color:var(--accent3);font-size:0.8rem">✓</span> Répond en quelques secondes</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem;color:var(--text2)"><span style="color:var(--accent3);font-size:0.8rem">✓</span> Se souvient de tes discussions passées</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem;color:var(--text2)"><span style="color:var(--accent3);font-size:0.8rem">✓</span> Génère des fiches, quiz et exercices</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem;color:var(--text2)"><span style="color:var(--accent3);font-size:0.8rem">✓</span> Suit ta progression matière par matière</div>
         </div>
-        <button class="btn-primary" style="margin-top:2rem" onclick="openChat()">Essayer maintenant →</button>
+        <button class="btn-primary" style="margin-top:2rem" onclick="openChatOrAuth()">Essayer maintenant →</button>
       </div>
       <div class="chat-window reveal">
         <div class="chat-top">
           <div class="chat-avatar">CI</div>
-          <div>
-            <div class="chat-name">Creo IA</div>
-            <div class="chat-status">En ligne — mémoire active</div>
-          </div>
+          <div><div class="chat-name">Creo IA</div><div class="chat-status">En ligne — mémoire active</div></div>
         </div>
         <div class="chat-body">
-          <div class="msg user">
-            <div class="msg-avatar user-av">Toi</div>
-            <div class="msg-bubble user-bubble">Explique-moi le théorème de Pythagore comme si j'avais jamais vu ça</div>
-          </div>
-          <div class="msg">
-            <div class="msg-avatar ai-av">CI</div>
-            <div class="msg-bubble ai-bubble">
-              Bien sûr ! Imagine un triangle avec un angle droit (90°). Le théorème dit que le carré de la grande diagonale (l'hypoténuse) est égal à la somme des carrés des deux autres côtés.
-              <div class="msg-code">a² + b² = c²
-Exemple : a=3, b=4 → c² = 9+16 = 25 → c=5 ✓</div>
-            </div>
-          </div>
-          <div class="msg user">
-            <div class="msg-avatar user-av">Toi</div>
-            <div class="msg-bubble user-bubble">Et si je veux faire un exo avec ça ?</div>
-          </div>
-          <div class="msg">
-            <div class="msg-avatar ai-av">CI</div>
-            <div class="msg-bubble ai-bubble">Voilà un exercice niveau brevet : un triangle ABC a AB=6cm et BC=8cm, l'angle B est droit. Calcule AC. Je retiens que tu débutes sur ce chapitre pour t'envoyer des exercices adaptés 🎯</div>
-          </div>
+          <div class="msg user"><div class="msg-avatar user-av">Toi</div><div class="msg-bubble user-bubble">Explique-moi le théorème de Pythagore comme si j'avais jamais vu ça</div></div>
+          <div class="msg"><div class="msg-avatar ai-av">CI</div><div class="msg-bubble ai-bubble">Bien sûr ! Imagine un triangle avec un angle droit (90°). Le théorème dit que le carré de la grande diagonale (l'hypoténuse) est égal à la somme des carrés des deux autres côtés.<div class="msg-code">a² + b² = c²
+Exemple : a=3, b=4 → c² = 9+16 = 25 → c=5 ✓</div></div></div>
+          <div class="msg user"><div class="msg-avatar user-av">Toi</div><div class="msg-bubble user-bubble">Fais-moi un quiz là-dessus !</div></div>
+          <div class="msg"><div class="msg-avatar ai-av">CI</div><div class="msg-bubble ai-bubble">Un triangle ABC a AB=6cm et BC=8cm, l'angle B est droit. Combien mesure AC ?<br><br>A) 10 cm ← <strong style="color:var(--accent3)">✓ Correct !</strong><br>B) 12 cm<br>C) 14 cm<br><br>Je retiens que tu travailles Pythagore pour t'envoyer des exercices adaptés 🎯</div></div>
         </div>
         <div class="chat-input-bar">
-          <input class="chat-input" type="text" placeholder="Clique sur Essayer maintenant →" readonly onclick="openChat()">
-          <button class="chat-send" onclick="openChat()">→</button>
+          <input class="chat-input" type="text" placeholder="Clique sur Essayer maintenant →" readonly onclick="openChatOrAuth()">
+          <button class="chat-send" onclick="openChatOrAuth()">→</button>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- MEMORY SECTION -->
+<!-- MEMORY -->
 <section id="memoire" class="pad">
   <div class="container">
     <div class="reveal" style="text-align:center;max-width:600px;margin:0 auto 1rem">
@@ -1244,55 +467,25 @@ Exemple : a=3, b=4 → c² = 9+16 = 25 → c=5 ✓</div>
       <div class="memory-card">
         <div style="font-family:var(--font-title);font-size:0.85rem;font-weight:700;color:var(--text2);letter-spacing:1px;text-transform:uppercase;margin-bottom:1rem">Ton profil d'apprentissage</div>
         <div style="display:flex;flex-direction:column;gap:0.75rem">
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <span style="font-size:0.85rem;color:var(--text2)">Maths — Algèbre</span>
-            <div style="background:rgba(79,142,255,0.15);border-radius:100px;height:6px;width:120px;overflow:hidden"><div style="height:100%;width:70%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:100px"></div></div>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <span style="font-size:0.85rem;color:var(--text2)">Français — Grammaire</span>
-            <div style="background:rgba(79,142,255,0.15);border-radius:100px;height:6px;width:120px;overflow:hidden"><div style="height:100%;width:55%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:100px"></div></div>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <span style="font-size:0.85rem;color:var(--text2)">Histoire — Dates</span>
-            <div style="background:rgba(79,142,255,0.15);border-radius:100px;height:6px;width:120px;overflow:hidden"><div style="height:100%;width:85%;background:linear-gradient(90deg,var(--accent3),var(--accent));border-radius:100px"></div></div>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <span style="font-size:0.85rem;color:var(--text2)">Anglais — Vocab</span>
-            <div style="background:rgba(79,142,255,0.15);border-radius:100px;height:6px;width:120px;overflow:hidden"><div style="height:100%;width:40%;background:linear-gradient(90deg,var(--accent2),#e05fff);border-radius:100px"></div></div>
-          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:0.85rem;color:var(--text2)">Maths — Algèbre</span><div style="background:rgba(79,142,255,0.15);border-radius:100px;height:6px;width:120px;overflow:hidden"><div style="height:100%;width:70%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:100px"></div></div></div>
+          <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:0.85rem;color:var(--text2)">Français — Grammaire</span><div style="background:rgba(79,142,255,0.15);border-radius:100px;height:6px;width:120px;overflow:hidden"><div style="height:100%;width:55%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:100px"></div></div></div>
+          <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:0.85rem;color:var(--text2)">Histoire — Dates</span><div style="background:rgba(79,142,255,0.15);border-radius:100px;height:6px;width:120px;overflow:hidden"><div style="height:100%;width:85%;background:linear-gradient(90deg,var(--accent3),var(--accent));border-radius:100px"></div></div></div>
+          <div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:0.85rem;color:var(--text2)">Anglais — Vocab</span><div style="background:rgba(79,142,255,0.15);border-radius:100px;height:6px;width:120px;overflow:hidden"><div style="height:100%;width:40%;background:linear-gradient(90deg,var(--accent2),#e05fff);border-radius:100px"></div></div></div>
         </div>
       </div>
       <div class="memory-card">
         <div style="font-family:var(--font-title);font-size:0.85rem;font-weight:700;color:var(--text2);letter-spacing:1px;text-transform:uppercase;margin-bottom:1rem">Historique de progression</div>
         <div class="memory-timeline">
-          <div class="timeline-item">
-            <div class="t-dot">📐</div>
-            <div class="t-content">
-              <div class="t-title">Pythagore maîtrisé</div>
-              <div class="t-sub">Il y a 2 jours · 4 exercices résolus</div>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="t-dot">📖</div>
-            <div class="t-content">
-              <div class="t-title">Analyse de texte — en cours</div>
-              <div class="t-sub">Hier · Progrès détecté</div>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="t-dot">💻</div>
-            <div class="t-content">
-              <div class="t-title">Intro au Python</div>
-              <div class="t-sub">Aujourd'hui · 1ère session</div>
-            </div>
-          </div>
+          <div class="timeline-item"><div class="t-dot">📐</div><div class="t-content"><div class="t-title">Pythagore maîtrisé</div><div class="t-sub">Il y a 2 jours · 4 exercices résolus</div></div></div>
+          <div class="timeline-item"><div class="t-dot">📖</div><div class="t-content"><div class="t-title">Analyse de texte — en cours</div><div class="t-sub">Hier · Progrès détecté</div></div></div>
+          <div class="timeline-item"><div class="t-dot">💻</div><div class="t-content"><div class="t-title">Intro au Python</div><div class="t-sub">Aujourd'hui · 1ère session</div></div></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CODE SECTION -->
+<!-- CODE -->
 <section id="code" class="pad" style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
   <div class="container">
     <div class="reveal" style="margin-bottom:3rem">
@@ -1301,26 +494,10 @@ Exemple : a=3, b=4 → c² = 9+16 = 25 → c=5 ✓</div>
       <p class="section-sub">Creo IA t'apprend Python, JavaScript, HTML/CSS. Elle debug ton code, t'explique les erreurs et t'accompagne projet par projet.</p>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem" class="reveal">
-      <div class="feature-card">
-        <div class="feature-icon teal">🐍</div>
-        <div class="feature-title">Python de zéro</div>
-        <div class="feature-desc">Variables, boucles, fonctions, listes... Creo IA te fait progresser avec des mini-projets concrets et fun.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon blue">🌐</div>
-        <div class="feature-title">Web (HTML/CSS/JS)</div>
-        <div class="feature-desc">Crée tes premiers sites. Elle génère le code, l'explique ligne par ligne et adapte selon ton niveau.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon amber">🐛</div>
-        <div class="feature-title">Debug instantané</div>
-        <div class="feature-desc">Colle ton code, elle trouve l'erreur en 2 secondes et t'explique pourquoi ça marchait pas.</div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon purple">🚀</div>
-        <div class="feature-title">Tes projets</div>
-        <div class="feature-desc">Jeu, app, bot Discord, calculatrice... Elle t'accompagne de l'idée au projet fini. Étape par étape.</div>
-      </div>
+      <div class="feature-card"><div class="feature-icon teal">🐍</div><div class="feature-title">Python de zéro</div><div class="feature-desc">Variables, boucles, fonctions, listes... Creo IA te fait progresser avec des mini-projets concrets et fun.</div></div>
+      <div class="feature-card"><div class="feature-icon blue">🌐</div><div class="feature-title">Web (HTML/CSS/JS)</div><div class="feature-desc">Crée tes premiers sites. Elle génère le code, l'explique ligne par ligne et adapte selon ton niveau.</div></div>
+      <div class="feature-card"><div class="feature-icon amber">🐛</div><div class="feature-title">Debug instantané</div><div class="feature-desc">Colle ton code, elle trouve l'erreur en 2 secondes et t'explique pourquoi ça marchait pas.</div></div>
+      <div class="feature-card"><div class="feature-icon purple">🚀</div><div class="feature-title">Tes projets</div><div class="feature-desc">Jeu, app, bot Discord, calculatrice... Elle t'accompagne de l'idée au projet fini. Étape par étape.</div></div>
     </div>
   </div>
 </section>
@@ -1333,21 +510,9 @@ Exemple : a=3, b=4 → c² = 9+16 = 25 → c=5 ✓</div>
       <h2 class="section-title">Pour chaque<br>moment de ta vie.</h2>
     </div>
     <div class="modes-row reveal">
-      <div class="mode-card" onclick="openChatWithMode('brevet')">
-        <div class="mode-num">01</div>
-        <div class="mode-title">Mode Brevet 🎯</div>
-        <div class="mode-desc">Révisions guidées, exercices, fiches mémo, simulations d'examen. Tout pour être prêt le jour J.</div>
-      </div>
-      <div class="mode-card" onclick="openChatWithMode('code')">
-        <div class="mode-num">02</div>
-        <div class="mode-title">Mode Code 💻</div>
-        <div class="mode-desc">Apprendre à coder, debugger, créer des projets. Ton prof de prog disponible à 2h du mat si besoin.</div>
-      </div>
-      <div class="mode-card" onclick="openChatWithMode('vie')">
-        <div class="mode-num">03</div>
-        <div class="mode-title">Mode Vie 🌟</div>
-        <div class="mode-desc">Des questions sur n'importe quoi — cuisine, culture, voyage, orientation, conseils. Creo IA est là.</div>
-      </div>
+      <div class="mode-card" onclick="openChatWithMode('brevet')"><div class="mode-num">01</div><div class="mode-title">Mode Brevet 🎯</div><div class="mode-desc">Révisions guidées, exercices, fiches mémo, quiz interactifs, simulations d'examen. Tout pour être prêt le jour J.</div></div>
+      <div class="mode-card" onclick="openChatWithMode('code')"><div class="mode-num">02</div><div class="mode-title">Mode Code 💻</div><div class="mode-desc">Apprendre à coder, debugger, créer des projets. Ton prof de prog disponible à 2h du mat si besoin.</div></div>
+      <div class="mode-card" onclick="openChatWithMode('vie')"><div class="mode-num">03</div><div class="mode-title">Mode Vie 🌟</div><div class="mode-desc">Des questions sur n'importe quoi — cuisine, culture, voyage, orientation, conseils. Creo IA est là pour toi.</div></div>
     </div>
   </div>
 </section>
@@ -1357,60 +522,34 @@ Exemple : a=3, b=4 → c² = 9+16 = 25 → c=5 ✓</div>
   <h2>Ton brevet,<br><span style="background:linear-gradient(135deg,#4f8eff,#7c5cfc,#00e5c0);-webkit-background-clip:text;-webkit-text-fill-color:transparent">c'est gagné.</span></h2>
   <p>Rejoins les élèves qui révisent avec Creo IA. Commence maintenant — aucune carte bancaire requise.</p>
   <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
-    <button class="btn-primary" onclick="openChat()">⚡ Lancer Creo IA</button>
+    <button class="btn-primary" onclick="openChatOrAuth()">⚡ Lancer Creo IA</button>
     <a href="#brevet" class="btn-secondary">Voir les matières</a>
   </div>
 </div>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <div class="footer-brand">
       <a class="nav-logo" style="font-size:1.2rem" onclick="showLanding()"><span>Creo</span> IA</a>
       <p>Ton IA personnelle pour réviser le brevet, apprendre à coder, et avancer dans la vie. Dérivée de la marque Creo.</p>
     </div>
-    <div class="footer-col">
-      <h4>L'IA</h4>
-      <ul>
-        <li><a href="#brevet">Mode Brevet</a></li>
-        <li><a href="#code">Mode Code</a></li>
-        <li><a href="#memoire">Mémoire IA</a></li>
-        <li><a onclick="openChat()" style="cursor:pointer">Lancer l'IA</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Creo</h4>
-      <ul>
-        <li><a href="https://axo36.github.io/creo/menu/index.html" target="_blank">Creo Transfer</a></li>
-        <li><a href="https://axo36.github.io/creo/menu/about.html" target="_blank">À propos</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Légal</h4>
-      <ul>
-        <li><a href="#">Confidentialité</a></li>
-        <li><a href="#">CGU</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </div>
+    <div class="footer-col"><h4>L'IA</h4><ul><li><a href="#brevet">Mode Brevet</a></li><li><a href="#code">Mode Code</a></li><li><a href="#memoire">Mémoire IA</a></li><li><a onclick="openChatOrAuth()" style="cursor:pointer">Lancer l'IA</a></li></ul></div>
+    <div class="footer-col"><h4>Creo</h4><ul><li><a href="https://axo36.github.io/creo/menu/index.html" target="_blank">Creo Transfer</a></li><li><a href="https://axo36.github.io/creo/menu/about.html" target="_blank">À propos</a></li></ul></div>
+    <div class="footer-col"><h4>Légal</h4><ul><li><a href="#">Confidentialité</a></li><li><a href="#">CGU</a></li><li><a href="#">Contact</a></li></ul></div>
   </div>
   <div class="footer-bottom">
     <span>© 2025 Creo IA — Produit dérivé de Creo. Tous droits réservés.</span>
     <span style="color:var(--accent)">Built with ⚡ by Creo Team</span>
   </div>
 </footer>
+</div><!-- end landing -->
 
-</div><!-- end landing-page -->
-
-<!-- ============================================================ -->
-<!-- FULL CHAT PAGE -->
-<!-- ============================================================ -->
+<!-- ============================== -->
+<!-- CHAT PAGE -->
+<!-- ============================== -->
 <div id="chat-page">
-  <!-- Top nav -->
   <div class="chat-page-nav">
-    <a class="nav-logo" onclick="showLanding()" style="cursor:pointer">
-      <span>Creo</span> IA<sup class="nav-badge">BETA</sup>
-    </a>
+    <a class="nav-logo" onclick="showLanding()" style="cursor:pointer"><span>Creo</span> IA<sup class="nav-badge">BETA</sup></a>
     <div style="display:flex;align-items:center;gap:10px">
       <span id="current-mode-label" style="font-size:0.78rem;color:var(--text3);letter-spacing:0.5px"></span>
       <button class="chat-back" onclick="showLanding()">← Retour</button>
@@ -1420,52 +559,82 @@ Exemple : a=3, b=4 → c² = 9+16 = 25 → c=5 ✓</div>
   <div class="chat-page-inner">
     <!-- Sidebar -->
     <div class="chat-sidebar">
+      <div class="sidebar-user" id="sidebar-user-info">
+        <div class="sidebar-user-av" id="sidebar-avatar">?</div>
+        <div>
+          <div class="sidebar-user-name" id="sidebar-username">Invité</div>
+          <div class="sidebar-user-level" id="sidebar-level">3ème</div>
+        </div>
+      </div>
+
+      <div class="sidebar-stats" id="sidebar-stats">
+        <div class="memory-section-title" style="margin-top:0;margin-bottom:0.6rem">Ma progression</div>
+        <div id="progress-bars"></div>
+      </div>
+
       <div class="sidebar-header">
         <h3>Conversations</h3>
         <button class="new-chat-btn" onclick="newChat()">+ Nouvelle conversation</button>
       </div>
+
       <div class="sidebar-memory">
         <div class="memory-section-title">Mémoire IA</div>
         <div id="memory-list"></div>
         <div class="memory-section-title" style="margin-top:1rem">Historique</div>
         <div id="history-list"></div>
       </div>
+
       <div class="mode-selector">
         <div class="mode-selector-title">Mode actif</div>
         <button class="mode-btn active" id="btn-brevet" onclick="setMode('brevet')">🎯 Mode Brevet</button>
         <button class="mode-btn" id="btn-code" onclick="setMode('code')">💻 Mode Code</button>
         <button class="mode-btn" id="btn-vie" onclick="setMode('vie')">🌟 Mode Vie</button>
+        <button class="mode-btn" style="margin-top:0.25rem;color:#ff8080;border-color:rgba(255,80,80,0.2)" onclick="doLogout()">↩ Déconnexion</button>
       </div>
     </div>
 
     <!-- Main chat -->
     <div class="chat-main">
       <div class="chat-main-header">
-        <div class="chat-main-avatar">CI</div>
-        <div class="chat-main-info">
-          <div class="chat-main-name">Creo IA</div>
-          <div class="chat-main-status" id="ai-status-label">En ligne — mémoire active</div>
+        <div class="chat-main-header-left">
+          <div class="chat-main-avatar">CI</div>
+          <div>
+            <div class="chat-main-name">Creo IA</div>
+            <div class="chat-main-status" id="ai-status-label">En ligne — mémoire active</div>
+          </div>
+        </div>
+        <div class="chat-header-actions">
+          <button class="header-action-btn" onclick="quickAction('fiche')">📋 Fiche de révision</button>
+          <button class="header-action-btn" onclick="quickAction('quiz')">🎯 Quiz rapide</button>
+          <button class="header-action-btn" onclick="quickAction('exercice')">✏️ Exercice</button>
         </div>
       </div>
 
-      <!-- Welcome screen -->
       <div class="welcome-screen" id="welcome-screen">
         <div class="welcome-logo">CI</div>
-        <div class="welcome-title">Bonjour ! Je suis Creo IA ✨</div>
-        <div class="welcome-sub">Ton assistante intelligente pour le brevet, le code, et tout le reste. Je me souviens de tout ce qu'on s'est dit.</div>
+        <div class="welcome-title" id="welcome-title">Bonjour ! Je suis Creo IA ✨</div>
+        <div class="welcome-sub" id="welcome-sub">Ton assistante intelligente pour le brevet, le code, et tout le reste. Je me souviens de tout ce qu'on s'est dit.</div>
         <div class="suggestions-grid" id="suggestions-grid">
-          <div class="suggestion-chip" onclick="sendSuggestion(this.dataset.msg)" data-msg="Aide-moi à réviser les maths pour le brevet"><span>📐</span>Révisions maths brevet</div>
-          <div class="suggestion-chip" onclick="sendSuggestion(this.dataset.msg)" data-msg="Explique-moi comment faire une analyse de texte en français"><span>📖</span>Analyse de texte</div>
-          <div class="suggestion-chip" onclick="sendSuggestion(this.dataset.msg)" data-msg="Apprends-moi Python de zéro"><span>🐍</span>Apprendre Python</div>
-          <div class="suggestion-chip" onclick="sendSuggestion(this.dataset.msg)" data-msg="Génère-moi une fiche de révision sur la Seconde Guerre Mondiale"><span>📋</span>Fiche de révision</div>
+          <div class="suggestion-chip" onclick="sendSuggestion('Aide-moi à réviser les maths pour le brevet. Commence par évaluer mon niveau.')"><span>📐</span>Révisions maths brevet</div>
+          <div class="suggestion-chip" onclick="sendSuggestion('Explique-moi comment faire une analyse de texte en français pour le brevet.')"><span>📖</span>Analyse de texte</div>
+          <div class="suggestion-chip" onclick="sendSuggestion('Apprends-moi Python de zéro avec un exemple concret.')"><span>🐍</span>Apprendre Python</div>
+          <div class="suggestion-chip" onclick="sendSuggestion('Génère-moi une fiche de révision complète sur la Seconde Guerre Mondiale.')"><span>📋</span>Fiche de révision</div>
+          <div class="suggestion-chip" onclick="sendSuggestion('Fais-moi un quiz de 5 questions sur les maths niveau brevet.')"><span>🎯</span>Quiz brevet</div>
+          <div class="suggestion-chip" onclick="sendSuggestion('Explique-moi les principales formules de physique-chimie pour le brevet.')"><span>⚗️</span>Physique-Chimie</div>
         </div>
       </div>
 
-      <!-- Messages -->
       <div class="chat-messages" id="chat-messages" style="display:none"></div>
 
-      <!-- Input area -->
       <div class="chat-input-area">
+        <div class="quick-tools">
+          <button class="quick-tool-btn" onclick="quickAction('fiche')">📋 Fiche</button>
+          <button class="quick-tool-btn" onclick="quickAction('quiz')">🎯 Quiz</button>
+          <button class="quick-tool-btn" onclick="quickAction('exercice')">✏️ Exercice</button>
+          <button class="quick-tool-btn" onclick="quickAction('corriger')">🔍 Corriger</button>
+          <button class="quick-tool-btn" onclick="quickAction('expliquer')">💡 Expliquer</button>
+          <button class="quick-tool-btn" onclick="quickAction('traduire')">🇬🇧 Traduire</button>
+        </div>
         <div class="chat-input-row">
           <textarea id="mainChatInput" placeholder="Pose ta question à Creo IA..." rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
           <button class="send-btn" id="send-btn" onclick="sendMessage()">
@@ -1481,95 +650,137 @@ Exemple : a=3, b=4 → c² = 9+16 = 25 → c=5 ✓</div>
   </div>
 </div>
 
+<!-- ============================== -->
+<!-- JAVASCRIPT -->
+<!-- ============================== -->
 <script>
+// ============================================================
+// USER SYSTEM
+// ============================================================
+const DB_KEY = 'creo_ia_users_db';
+const SESSION_KEY = 'creo_ia_session';
+
+function getAllUsers() {
+  try { return JSON.parse(localStorage.getItem(DB_KEY) || '{}'); } catch(e) { return {}; }
+}
+function saveAllUsers(users) {
+  try { localStorage.setItem(DB_KEY, JSON.stringify(users)); } catch(e) {}
+}
+function getCurrentSession() {
+  try { return JSON.parse(localStorage.getItem(SESSION_KEY) || 'null'); } catch(e) { return null; }
+}
+function setSession(username) {
+  try { localStorage.setItem(SESSION_KEY, JSON.stringify({ username, loginTime: Date.now() })); } catch(e) {}
+}
+function clearSession() {
+  try { localStorage.removeItem(SESSION_KEY); } catch(e) {}
+}
+function getCurrentUser() {
+  const s = getCurrentSession();
+  if (!s) return null;
+  const users = getAllUsers();
+  return users[s.username] || null;
+}
+function saveCurrentUser(userData) {
+  const s = getCurrentSession();
+  if (!s) return;
+  const users = getAllUsers();
+  users[s.username] = userData;
+  saveAllUsers(users);
+}
+
+// ============================================================
+// AUTH UI
+// ============================================================
+function openAuthModal() {
+  document.getElementById('auth-modal').classList.add('active');
+  setTimeout(() => document.getElementById('login-username').focus(), 100);
+}
+function closeAuthModal() {
+  document.getElementById('auth-modal').classList.remove('active');
+  clearModalError();
+}
+function switchTab(tab) {
+  document.querySelectorAll('.modal-tab').forEach((t,i) => t.classList.toggle('active', (i===0&&tab==='login')||(i===1&&tab==='register')));
+  document.getElementById('tab-login').style.display = tab==='login'?'block':'none';
+  document.getElementById('tab-register').style.display = tab==='register'?'block':'none';
+  clearModalError();
+}
+function showModalError(msg) {
+  const el = document.getElementById('modal-error');
+  el.textContent = msg;
+  el.classList.add('show');
+}
+function clearModalError() {
+  document.getElementById('modal-error').classList.remove('show');
+}
+
+function doRegister() {
+  const username = document.getElementById('reg-username').value.trim();
+  const firstname = document.getElementById('reg-firstname').value.trim();
+  const level = document.getElementById('reg-level').value;
+  const pin = document.getElementById('reg-pin').value.trim();
+  if (!username) return showModalError('Choisis un pseudo !');
+  if (username.length < 2) return showModalError('Le pseudo doit faire au moins 2 caractères.');
+  if (!/^\d{4}$/.test(pin)) return showModalError('Le code PIN doit être exactement 4 chiffres.');
+  const users = getAllUsers();
+  if (users[username.toLowerCase()]) return showModalError('Ce pseudo est déjà pris !');
+  const newUser = {
+    username: username.toLowerCase(),
+    displayName: username,
+    firstname: firstname || username,
+    level,
+    pin,
+    createdAt: Date.now(),
+    memory: [],
+    history: [],
+    progress: { maths:0, francais:0, histoire:0, svt:0, physique:0, anglais:0 },
+    totalMessages: 0,
+    sessions: 1
+  };
+  users[username.toLowerCase()] = newUser;
+  saveAllUsers(users);
+  setSession(username.toLowerCase());
+  closeAuthModal();
+  enterChat();
+}
+
+function doLogin() {
+  const username = document.getElementById('login-username').value.trim().toLowerCase();
+  const pin = document.getElementById('login-pin').value.trim();
+  if (!username || !pin) return showModalError('Remplis tous les champs !');
+  const users = getAllUsers();
+  const user = users[username];
+  if (!user) return showModalError('Pseudo introuvable. Tu as un compte ?');
+  if (user.pin !== pin) return showModalError('Code PIN incorrect !');
+  user.sessions = (user.sessions || 0) + 1;
+  user.lastLogin = Date.now();
+  users[username] = user;
+  saveAllUsers(users);
+  setSession(username);
+  closeAuthModal();
+  enterChat();
+}
+
+function doLogout() {
+  clearSession();
+  showLanding();
+  updateNavUser();
+}
+
+function openChatOrAuth() {
+  const user = getCurrentUser();
+  if (user) { enterChat(); }
+  else { openAuthModal(); }
+}
+
 // ============================================================
 // STATE
 // ============================================================
 let currentMode = 'brevet';
-let messages = []; // current conversation
-let memory = []; // persistent memory facts
+let messages = [];
 let isLoading = false;
-
-const MEMORY_KEY = 'creo_ia_memory';
-const HISTORY_KEY = 'creo_ia_history';
-
-// Load memory from localStorage
-function loadMemory() {
-  try {
-    const m = localStorage.getItem(MEMORY_KEY);
-    if (m) memory = JSON.parse(m);
-  } catch(e) { memory = []; }
-}
-
-function saveMemory() {
-  try { localStorage.setItem(MEMORY_KEY, JSON.stringify(memory)); } catch(e) {}
-}
-
-function loadHistory() {
-  try {
-    const h = localStorage.getItem(HISTORY_KEY);
-    return h ? JSON.parse(h) : [];
-  } catch(e) { return []; }
-}
-
-function saveToHistory(userMsg, aiMsg) {
-  try {
-    let history = loadHistory();
-    history.unshift({
-      user: userMsg.slice(0, 80),
-      ai: aiMsg.slice(0, 120),
-      time: new Date().toLocaleString('fr-FR', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' }),
-      mode: currentMode
-    });
-    history = history.slice(0, 20);
-    localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
-  } catch(e) {}
-}
-
-// ============================================================
-// SYSTEM PROMPTS
-// ============================================================
-function getSystemPrompt() {
-  const memoryContext = memory.length > 0
-    ? `\n\nMÉMOIRE PERSISTANTE (ce que tu sais déjà sur cet élève) :\n${memory.map(m => '- ' + m).join('\n')}`
-    : '';
-
-  const modeInstructions = {
-    brevet: `Tu es Creo IA, une assistante intelligente et bienveillante spécialisée dans la préparation au Brevet des Collèges (3ème, France).
-Ton rôle principal : accompagner l'élève jusqu'au brevet. Tu dois :
-- Expliquer clairement les notions du programme de 3ème (maths, français, histoire-géo, SVT, physique-chimie, anglais, technologie)
-- Générer des exercices adaptés au niveau et au format du brevet
-- Corriger avec bienveillance et expliquer les erreurs
-- Créer des fiches de révision claires et structurées
-- Suivre la progression et adapter le niveau
-- Être motivant et positif
-
-Quand tu retiens quelque chose d'important sur l'élève (son niveau dans une matière, ses difficultés, ses points forts), formule-le clairement.
-Réponds toujours en français sauf si l'élève t'écrit en anglais.
-Pour les formules mathématiques, utilise la notation claire : a² + b² = c²
-Pour le code, utilise des blocs de code.${memoryContext}`,
-
-    code: `Tu es Creo IA, une assistante de programmation pédagogique pour collégiens et lycéens.
-Tu enseignes : Python, HTML/CSS, JavaScript, et les bases de la programmation.
-- Explique le code ligne par ligne, avec des exemples concrets
-- Debug instantanément avec explication de l'erreur
-- Propose des mini-projets fun (jeux, calculatrices, apps simples)
-- Adapte le niveau : débutant → intermédiaire → avancé
-- Sois enthousiaste et rends la prog accessible
-- Utilise toujours des blocs de code formatés
-- Commence par le plus simple, puis complexifie${memoryContext}`,
-
-    vie: `Tu es Creo IA, une assistante de vie quotidienne bienveillante et intelligente pour les jeunes.
-Tu aides sur tout : orientation scolaire, conseils personnels, culture générale, cuisine, sport, voyages, langue, finances de base, etc.
-- Sois chaleureux(se) et accessible
-- Donne des conseils pratiques et concrets
-- Reste bienveillant(e) même sur des sujets sensibles
-- Encourage l'autonomie et la réflexion
-- Adapte-toi à l'âge et au niveau du jeune${memoryContext}`
-  };
-
-  return modeInstructions[currentMode] || modeInstructions.brevet;
-}
+let pendingInitMsg = null;
 
 // ============================================================
 // NAVIGATION
@@ -1577,30 +788,59 @@ Tu aides sur tout : orientation scolaire, conseils personnels, culture général
 function showLanding() {
   document.getElementById('landing-page').style.display = 'block';
   document.getElementById('chat-page').classList.remove('active');
+  updateNavUser();
 }
 
-function openChat() {
+function enterChat() {
   document.getElementById('landing-page').style.display = 'none';
   document.getElementById('chat-page').classList.add('active');
-  loadMemory();
+  updateSidebarUser();
   renderMemoryList();
   renderHistoryList();
+  renderProgressBars();
   updateModeLabel();
   document.getElementById('mainChatInput').focus();
+  if (pendingInitMsg) {
+    const msg = pendingInitMsg;
+    pendingInitMsg = null;
+    setTimeout(() => { document.getElementById('mainChatInput').value = msg; sendMessage(); }, 200);
+  }
 }
 
+function openChat() { openChatOrAuth(); }
 function openChatWith(msg) {
-  openChat();
-  setTimeout(() => {
-    document.getElementById('mainChatInput').value = msg;
-    autoResize(document.getElementById('mainChatInput'));
-    sendMessage();
-  }, 100);
+  pendingInitMsg = msg;
+  openChatOrAuth();
 }
-
 function openChatWithMode(mode) {
   setMode(mode);
-  openChat();
+  openChatOrAuth();
+}
+
+function updateNavUser() {
+  const user = getCurrentUser();
+  const navBtn = document.getElementById('nav-user-btn');
+  const navCta = document.querySelector('.nav-cta');
+  if (user) {
+    document.getElementById('nav-avatar-txt').textContent = user.displayName[0].toUpperCase();
+    document.getElementById('nav-username-txt').textContent = user.displayName;
+    if (navBtn) navBtn.style.display = 'flex';
+    if (navCta) navCta.style.display = 'none';
+  } else {
+    if (navBtn) navBtn.style.display = 'none';
+    if (navCta) navCta.style.display = 'inline-flex';
+  }
+}
+
+function updateSidebarUser() {
+  const user = getCurrentUser();
+  if (!user) return;
+  document.getElementById('sidebar-avatar').textContent = user.displayName[0].toUpperCase();
+  document.getElementById('sidebar-username').textContent = user.displayName;
+  const lvlLabels = { '6eme':'6ème','5eme':'5ème','4eme':'4ème','3eme':'3ème — Brevet','2nde':'2nde','1ere':'1ère','terminale':'Terminale' };
+  document.getElementById('sidebar-level').textContent = lvlLabels[user.level] || user.level;
+  const title = document.getElementById('welcome-title');
+  if (title) title.textContent = `Bonjour ${user.firstname || user.displayName} ! Je suis Creo IA ✨`;
 }
 
 // ============================================================
@@ -1615,45 +855,162 @@ function setMode(mode) {
 }
 
 function updateModeLabel() {
-  const labels = { brevet: '🎯 Mode Brevet', code: '💻 Mode Code', vie: '🌟 Mode Vie' };
+  const labels = { brevet:'🎯 Mode Brevet', code:'💻 Mode Code', vie:'🌟 Mode Vie' };
   const el = document.getElementById('current-mode-label');
   if (el) el.textContent = labels[currentMode] || '';
 }
 
 // ============================================================
-// MEMORY UI
+// MEMORY + HISTORY + PROGRESS
 // ============================================================
+function getUserMemory() {
+  const u = getCurrentUser();
+  return u ? (u.memory || []) : [];
+}
+function addMemoryFact(fact) {
+  const u = getCurrentUser();
+  if (!u) return;
+  u.memory = u.memory || [];
+  if (!u.memory.some(m => m.toLowerCase().includes(fact.toLowerCase().slice(0,20)))) {
+    u.memory.unshift(fact);
+    u.memory = u.memory.slice(0, 40);
+    saveCurrentUser(u);
+  }
+}
+function saveToHistory(userMsg, aiMsg) {
+  const u = getCurrentUser();
+  if (!u) return;
+  u.history = u.history || [];
+  u.history.unshift({
+    user: userMsg.slice(0,100),
+    ai: aiMsg.slice(0,150),
+    time: new Date().toLocaleString('fr-FR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}),
+    mode: currentMode
+  });
+  u.history = u.history.slice(0, 30);
+  u.totalMessages = (u.totalMessages || 0) + 1;
+  saveCurrentUser(u);
+}
+function updateProgress(subject, delta) {
+  const u = getCurrentUser();
+  if (!u) return;
+  u.progress = u.progress || {};
+  u.progress[subject] = Math.min(100, (u.progress[subject] || 0) + delta);
+  saveCurrentUser(u);
+  renderProgressBars();
+}
+
 function renderMemoryList() {
   const el = document.getElementById('memory-list');
   if (!el) return;
-  if (memory.length === 0) {
-    el.innerHTML = '<div style="font-size:0.75rem;color:var(--text3);padding:0.5rem 0">Aucune mémoire encore. Commence à chatter !</div>';
-    return;
-  }
-  el.innerHTML = memory.slice(0, 8).map(m =>
-    `<div class="memory-item">${escapeHtml(m)}</div>`
-  ).join('');
+  const mem = getUserMemory();
+  if (!mem.length) { el.innerHTML = '<div style="font-size:0.75rem;color:var(--text3);padding:0.5rem 0">Aucune mémoire encore. Commence à chatter !</div>'; return; }
+  el.innerHTML = mem.slice(0,10).map(m => `<div class="memory-item">${escapeHtml(m)}</div>`).join('');
 }
-
 function renderHistoryList() {
   const el = document.getElementById('history-list');
   if (!el) return;
-  const history = loadHistory();
-  if (history.length === 0) {
-    el.innerHTML = '<div style="font-size:0.75rem;color:var(--text3);padding:0.5rem 0">Aucun historique.</div>';
-    return;
-  }
-  el.innerHTML = history.slice(0, 8).map(h =>
-    `<div class="memory-item" onclick="loadConversationContext('${escapeAttr(h.user)}')">
-      <div>${escapeHtml(h.user.slice(0,60))}…</div>
-      <div class="memory-item-time">${h.time} · ${h.mode || 'brevet'}</div>
+  const u = getCurrentUser();
+  const hist = u ? (u.history || []) : [];
+  if (!hist.length) { el.innerHTML = '<div style="font-size:0.75rem;color:var(--text3);padding:0.5rem 0">Aucun historique.</div>'; return; }
+  el.innerHTML = hist.slice(0,8).map(h =>
+    `<div class="memory-item" onclick="loadContext('${escapeAttr(h.user)}')">
+      <div>${escapeHtml(h.user.slice(0,55))}${h.user.length>55?'…':''}</div>
+      <div class="memory-item-time">${h.time} · ${h.mode||'brevet'}</div>
     </div>`
   ).join('');
 }
-
-function loadConversationContext(msg) {
+function renderProgressBars() {
+  const el = document.getElementById('progress-bars');
+  if (!el) return;
+  const u = getCurrentUser();
+  if (!u) return;
+  const p = u.progress || {};
+  const subjects = [
+    {key:'maths',label:'Maths',color:'var(--accent)'},
+    {key:'francais',label:'Français',color:'var(--accent2)'},
+    {key:'histoire',label:'Histoire',color:'var(--accent3)'},
+    {key:'anglais',label:'Anglais',color:'#e05fff'},
+  ];
+  el.innerHTML = subjects.map(s => `
+    <div class="stat-bar-row">
+      <div class="stat-bar-label"><span>${s.label}</span><span style="color:var(--text3)">${p[s.key]||0}%</span></div>
+      <div class="stat-bar-track"><div class="stat-bar-fill" style="width:${p[s.key]||0}%;background:${s.color}"></div></div>
+    </div>`
+  ).join('');
+}
+function loadContext(msg) {
   document.getElementById('mainChatInput').value = 'Je veux continuer sur : ' + msg;
   autoResize(document.getElementById('mainChatInput'));
+}
+
+// ============================================================
+// SYSTEM PROMPT — Ultra-intelligent
+// ============================================================
+function getSystemPrompt() {
+  const user = getCurrentUser();
+  const mem = getUserMemory();
+  const memCtx = mem.length ? `\n\n📚 MÉMOIRE PERSISTANTE DE CET ÉLÈVE :\n${mem.map(m=>'• '+m).join('\n')}` : '';
+  const userCtx = user ? `\n\n👤 PROFIL UTILISATEUR :\n• Pseudo : ${user.displayName}\n• Prénom : ${user.firstname||user.displayName}\n• Niveau : ${user.level}\n• Messages envoyés : ${user.totalMessages||0}` : '';
+  const progressCtx = user && user.progress ? `\n\n📊 PROGRESSION ACTUELLE :\n${Object.entries(user.progress).map(([k,v])=>`• ${k}: ${v}%`).join('\n')}` : '';
+
+  const base = `Tu es Creo IA, une intelligence artificielle pédagogique de pointe, conçue spécifiquement pour les élèves français.
+Tu es bien plus intelligente que les autres IA car tu combines :
+1. Une expertise pédagogique profonde (programme scolaire français, méthodes d'apprentissage optimales)
+2. Une mémoire persistante entre les sessions
+3. Une adaptation dynamique au niveau et aux besoins de chaque élève
+4. Des techniques pédagogiques éprouvées (méthode Socrate, répétition espacée, apprentissage actif)
+
+🧠 TES CAPACITÉS DISTINCTIVES :
+- Tu ANALYSES les erreurs récurrentes de l'élève et tu les cites pour les corriger
+- Tu GÉNÈRES des explications à plusieurs niveaux (simple → avancé)
+- Tu CRÉES des fiches de révision structurées et mémorisables
+- Tu PRODUIS des quiz interactifs avec corrections détaillées
+- Tu ADAPTES ta pédagogie : si l'élève bloque, tu changes d'approche
+- Tu ENCOURAGES avec bienveillance mais tu restes exigeant sur l'exactitude
+- Tu UTILISES des exemples concrets liés au quotidien des ados
+- Tu MÉMORISES tout ce qui est important sur l'élève
+
+📋 FORMAT DE TES RÉPONSES :
+- Utilise **texte en gras** pour les points clés
+- Utilise ### pour les titres de sections
+- Utilise des formules mathématiques clairement formatées : a² + b² = c²
+- Utilise des blocs de code pour la programmation
+- Sois concis mais complet — pas de remplissage
+- Termine par une question ou un encouragement adapté
+
+🎯 RÈGLES PÉDAGOGIQUES :
+- Ne donne JAMAIS juste la réponse directement : guide l'élève vers la solution
+- Si l'élève se trompe, explique POURQUOI c'est faux avant de donner la bonne réponse
+- Pour les maths : toujours montrer les étapes intermédiaires
+- Pour le français : toujours justifier les règles de grammaire
+- Pour l'histoire : toujours contextualiser avec causes et conséquences
+- Pour le code : toujours expliquer la logique, pas juste le code
+
+⚠️ IMPORTANT : Réponds TOUJOURS en français sauf si l'élève écrit en anglais (pour pratiquer).${userCtx}${progressCtx}${memCtx}`;
+
+  const modes = {
+    brevet: `\n\n🎯 MODE BREVET ACTIF :
+Tu te concentres sur le programme officiel du Brevet des Collèges (DNB) français.
+Matières : Mathématiques, Français, Histoire-Géographie-EMC, SVT, Physique-Chimie, Technologie, Arts, Éducation physique, Langues.
+Format des exercices : adapte-les au format réel du brevet (notation sur 100 points, épreuves écrites).
+Pour chaque notion, rappelle toujours son importance au brevet et sa pondération.
+Génère des exercices au format "annales du brevet" quand c'est pertinent.`,
+    code: `\n\n💻 MODE CODE ACTIF :
+Tu enseignes la programmation de façon pratique et progressive.
+Langages : Python (priorité), HTML/CSS, JavaScript, bases de l'algorithmie.
+Pour chaque concept : explique → montre un exemple → fait pratiquer.
+Toujours tester mentalement le code avant de le donner.
+Debug : identifie l'erreur précise, explique pourquoi elle se produit, comment l'éviter.
+Propose des projets concrets et amusants adaptés au niveau.`,
+    vie: `\n\n🌟 MODE VIE ACTIF :
+Tu aides sur tout le quotidien des jeunes.
+Orientation scolaire, révisions générales, culture générale, langues, conseils pratiques.
+Sois chaleureux, empathique, et traite les sujets avec maturité.
+Tu peux aborder des sujets sensibles (stress des examens, relations, avenir) avec bienveillance.`
+  };
+
+  return base + (modes[currentMode] || modes.brevet);
 }
 
 // ============================================================
@@ -1671,11 +1028,21 @@ function sendSuggestion(msg) {
   sendMessage();
 }
 
+function quickAction(action) {
+  const actions = {
+    fiche: 'Génère-moi une fiche de révision complète et bien structurée sur le sujet qu\'on vient de voir (ou demande-moi quel sujet si on n\'a pas encore commencé).',
+    quiz: 'Fais-moi un quiz de 5 questions de difficulté progressive sur le sujet qu\'on travaille. Après chaque réponse, donne une explication détaillée.',
+    exercice: 'Donne-moi un exercice au format brevet sur le sujet qu\'on travaille, avec tous les détails et les points attribués.',
+    corriger: 'Je vais te coller un texte ou un exercice que j\'ai fait. Corrige-le en expliquant chaque erreur et comment l\'éviter.',
+    expliquer: 'Explique-moi le dernier concept qu\'on a vu d\'une autre façon, avec un exemple différent et plus simple.',
+    traduire: 'Aide-moi avec de l\'anglais : je vais te donner un texte ou une phrase à traduire/expliquer.'
+  };
+  document.getElementById('mainChatInput').value = actions[action] || '';
+  document.getElementById('mainChatInput').focus();
+}
+
 function handleKey(e) {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    sendMessage();
-  }
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
 }
 
 function autoResize(el) {
@@ -1689,18 +1056,14 @@ async function sendMessage() {
   const text = input.value.trim();
   if (!text) return;
 
-  // Show chat area
   document.getElementById('welcome-screen').style.display = 'none';
   document.getElementById('chat-messages').style.display = 'flex';
-
   input.value = '';
   input.style.height = 'auto';
 
-  // Add user message
-  messages.push({ role: 'user', content: text });
+  messages.push({ role:'user', content:text });
   appendMessage('user', text);
 
-  // Typing indicator
   const typingEl = appendTyping();
   isLoading = true;
   document.getElementById('send-btn').disabled = true;
@@ -1708,13 +1071,13 @@ async function sendMessage() {
 
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: getSystemPrompt(),
-        messages: messages.map(m => ({ role: m.role, content: m.content }))
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system:getSystemPrompt(),
+        messages:messages.slice(-20).map(m=>({role:m.role,content:m.content}))
       })
     });
 
@@ -1723,45 +1086,49 @@ async function sendMessage() {
 
     let aiText = '';
     if (data.content && data.content.length > 0) {
-      aiText = data.content.filter(b => b.type === 'text').map(b => b.text).join('');
+      aiText = data.content.filter(b=>b.type==='text').map(b=>b.text).join('');
     } else if (data.error) {
-      aiText = `Oups ! Une erreur s'est produite : ${data.error.message || 'Essaie de recharger.'}`;
+      aiText = `⚠️ Erreur : ${data.error.message||'Vérifie ta connexion.'}`;
+    } else {
+      aiText = "Je n'ai pas pu générer une réponse. Réessaie !";
     }
 
-    messages.push({ role: 'assistant', content: aiText });
+    messages.push({ role:'assistant', content:aiText });
     appendMessage('ai', aiText);
 
-    // Extract memory
-    extractAndSaveMemory(text, aiText);
+    extractMemory(text, aiText);
+    detectProgressUpdate(text, aiText);
     saveToHistory(text, aiText);
     renderHistoryList();
     renderMemoryList();
 
   } catch(err) {
     typingEl.remove();
-    const errMsg = 'Désolé, je n\'arrive pas à te répondre pour l\'instant. Vérifie ta connexion et réessaie !';
-    messages.push({ role: 'assistant', content: errMsg });
+    const errMsg = 'Désolé, je ne peux pas te répondre pour l\'instant. Vérifie ta connexion et réessaie !';
+    messages.push({ role:'assistant', content:errMsg });
     appendMessage('ai', errMsg);
   }
 
   isLoading = false;
   document.getElementById('send-btn').disabled = false;
-  document.getElementById('ai-status-label').innerHTML = '<span style="color:var(--accent3)">En ligne — mémoire active</span>';
+  document.getElementById('ai-status-label').innerHTML = 'En ligne — mémoire active';
 }
 
 function appendMessage(role, text) {
   const container = document.getElementById('chat-messages');
   const div = document.createElement('div');
   div.className = `cmsg ${role}`;
-
+  const user = getCurrentUser();
+  const initials = user ? user.displayName[0].toUpperCase() : 'Toi';
   const av = document.createElement('div');
-  av.className = `cmsg-av ${role === 'ai' ? 'ai-av' : 'user-av'}`;
-  av.textContent = role === 'ai' ? 'CI' : 'Toi';
-
+  av.className = `cmsg-av ${role==='ai'?'ai-av':'user-av'}`;
+  av.style.cssText = role==='ai'
+    ? 'background:linear-gradient(135deg,#4f8eff,#7c5cfc);color:white;font-family:var(--font-title)'
+    : 'background:rgba(79,142,255,0.15);color:#4f8eff';
+  av.textContent = role==='ai' ? 'CI' : initials;
   const bubble = document.createElement('div');
   bubble.className = 'cmsg-bubble';
   bubble.innerHTML = formatMessage(text);
-
   div.appendChild(av);
   div.appendChild(bubble);
   container.appendChild(div);
@@ -1773,15 +1140,8 @@ function appendTyping() {
   const container = document.getElementById('chat-messages');
   const div = document.createElement('div');
   div.className = 'cmsg ai';
-  div.innerHTML = `
-    <div class="cmsg-av ai-av">CI</div>
-    <div class="cmsg-bubble">
-      <div class="typing-indicator">
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-      </div>
-    </div>`;
+  div.innerHTML = `<div class="cmsg-av ai-av" style="background:linear-gradient(135deg,#4f8eff,#7c5cfc);color:white;font-family:var(--font-title)">CI</div>
+    <div class="cmsg-bubble"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
   container.appendChild(div);
   container.scrollTop = container.scrollHeight;
   return div;
@@ -1789,48 +1149,76 @@ function appendTyping() {
 
 function formatMessage(text) {
   // Code blocks
-  text = text.replace(/```(\w+)?\n([\s\S]*?)```/g, (_, lang, code) =>
+  text = text.replace(/```(\w*)\n?([\s\S]*?)```/g, (_,lang,code) =>
     `<pre>${escapeHtml(code.trim())}</pre>`);
   // Inline code
-  text = text.replace(/`([^`]+)`/g, (_, code) =>
-    `<code>${escapeHtml(code)}</code>`);
+  text = text.replace(/`([^`\n]+)`/g, (_,code) => `<code>${escapeHtml(code)}</code>`);
+  // Headers
+  text = text.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+  text = text.replace(/^## (.+)$/gm, '<h3>$1</h3>');
   // Bold
   text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  // Italic
+  text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  // Math-like lines (containing = and numbers/letters)
+  text = text.replace(/^([a-zA-Z²³√∑∫αβγδ\s]*[=+\-×÷][²³√∑∫a-zA-Z0-9\s+\-×÷=().,%]+)$/gm, (m, line) => {
+    if (line.trim().length > 2 && line.trim().length < 80) return `<div class="math-block">${line}</div>`;
+    return m;
+  });
+  // Bullet lists
+  text = text.replace(/^[\-\*] (.+)$/gm, '<li>$1</li>');
+  text = text.replace(/(<li>.*<\/li>\n?)+/g, m => `<ul>${m}</ul>`);
+  // Numbered lists
+  text = text.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
   // Newlines
   text = text.replace(/\n/g, '<br>');
   return text;
 }
 
 // ============================================================
-// MEMORY EXTRACTION
+// SMART MEMORY EXTRACTION
 // ============================================================
-async function extractAndSaveMemory(userMsg, aiMsg) {
-  // Simple heuristic memory extraction — look for patterns indicating level/progress
-  const combined = (userMsg + ' ' + aiMsg).toLowerCase();
-
-  const patterns = [
-    { test: /je suis en (3[eè]me|troisième)/i, fn: m => `Élève en 3ème` },
-    { test: /j'ai (du mal|du mal|difficultés?) (avec|en|sur) ([\w\s]+)/i, fn: m => `Difficulté en : ${m[3]}` },
-    { test: /je (?:suis|me sens) nul(?:le)? en ([\w\s]+)/i, fn: m => `Point faible : ${m[1]}` },
-    { test: /j'adore? (les? [\w\s]+|la [\w\s]+)/i, fn: m => `Aime : ${m[1]}` },
-    { test: /mon brevet (est le|est en|est dans)/i, fn: () => `Prépare le brevet` },
-    { test: /j'apprends? (python|javascript|html|css|le code|la prog)/i, fn: m => `Apprend : ${m[1]}` },
+function extractMemory(userMsg, aiMsg) {
+  const u = userMsg.toLowerCase();
+  const checks = [
+    { test:/je suis en (6[eè]me|6ème|5[eè]me|5ème|4[eè]me|4ème|3[eè]me|3ème|seconde|2nde|premi[eè]re|1[eè]re|terminale)/i, fn:m=>`Niveau : ${m[1]}` },
+    { test:/j[e'](?:ai|'ai) (\d{2}) ans/i, fn:m=>`Âge : ${m[1]} ans` },
+    { test:/j[e'](?:suis|me débrouille) (bien|mal|nul|nulle) en ([a-zéèàêâ\s]+)/i, fn:m=>`Niveau ${m[2]} : ${m[1]}` },
+    { test:/j[e'](?:ai du mal|galère|bloque) (?:avec|en|sur) ([\w\séàèêâ]+)/i, fn:m=>`Difficulté en : ${m[1]}` },
+    { test:/j[e'](?:adore|préfère|aime) (les? [\w\s]+|la [\w\s]+|le [\w\s]+)/i, fn:m=>`Aime : ${m[1]}` },
+    { test:/je (?:veux|voudrais|souhaite) (?:devenir|faire) ([\w\s]+)/i, fn:m=>`Projet : ${m[1]}` },
+    { test:/mon brevet (?:est en|c'est en|c'est le)/i, fn:()=>`Prépare le brevet` },
+    { test:/j[e'](?:apprends?|veux apprendre) (python|javascript|html|css|java|c\+\+|le code|la programmation)/i, fn:m=>`Apprend : ${m[1]}` },
+    { test:/je (?:comprends? pas|comprends? pas|comprends? pas) ([\w\s]+)/i, fn:m=>`Difficultés avec : ${m[1]}` },
   ];
-
-  let newFacts = [];
-  for (const p of patterns) {
-    const match = (userMsg).match(p.test);
+  for (const c of checks) {
+    const match = userMsg.match(c.test);
     if (match) {
-      const fact = p.fn(match);
-      if (fact && !memory.some(m => m.toLowerCase().includes(fact.toLowerCase().slice(0, 20)))) {
-        newFacts.push(fact);
-      }
+      const fact = c.fn(match);
+      if (fact) addMemoryFact(fact);
     }
   }
+  // Extract from AI response — detect if AI mentioned understanding
+  if (aiMsg.includes('je retiens') || aiMsg.includes('je note') || aiMsg.includes('je mémorise')) {
+    const m = aiMsg.match(/(?:je retiens|je note|je mémorise)[^.!?]*([^.!?]+)[.!?]/i);
+    if (m) addMemoryFact('Note IA : ' + m[1].trim().slice(0,60));
+  }
+}
 
-  if (newFacts.length > 0) {
-    memory = [...memory, ...newFacts].slice(-30);
-    saveMemory();
+function detectProgressUpdate(userMsg, aiMsg) {
+  const combined = (userMsg + ' ' + aiMsg).toLowerCase();
+  const subjectMap = [
+    { keys:['maths','mathématiques','algèbre','géométrie','pythagore','équation','probabilité','statistique'], subject:'maths' },
+    { keys:['français','grammaire','conjugaison','orthographe','rédaction','texte','lecture'], subject:'francais' },
+    { keys:['histoire','géographie','historique','géo','chronologie','carte'], subject:'histoire' },
+    { keys:['svt','biologie','physique','chimie','science','énergie','lumière'], subject:'svt' },
+    { keys:['anglais','english','vocabulaire','grammaire anglaise'], subject:'anglais' },
+  ];
+  for (const s of subjectMap) {
+    if (s.keys.some(k => combined.includes(k))) {
+      updateProgress(s.subject, 2);
+      break;
+    }
   }
 }
 
@@ -1838,26 +1226,31 @@ async function extractAndSaveMemory(userMsg, aiMsg) {
 // UTILS
 // ============================================================
 function escapeHtml(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 function escapeAttr(s) {
-  return s.replace(/'/g, "\\'").replace(/"/g, '&quot;').slice(0, 80);
+  return String(s).replace(/'/g,"\\'").replace(/"/g,'&quot;').slice(0,80);
 }
 
 // ============================================================
 // SCROLL REVEAL
 // ============================================================
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) e.target.classList.add('visible');
-  });
-}, { threshold: 0.1 });
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold:0.1 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 // ============================================================
 // INIT
 // ============================================================
-loadMemory();
+updateNavUser();
+// Auto-login if session exists
+if (getCurrentUser()) {
+  document.getElementById('nav-user-btn').style.display = 'flex';
+  document.querySelector('.nav-cta') && (document.querySelector('.nav-cta').style.display='none');
+}
 </script>
 </body>
 </html>
+HTMLEOF
+echo "Done"
