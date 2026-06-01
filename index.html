@@ -33,7 +33,6 @@
     overflow-x: hidden;
   }
 
-  /* === GRID BG === */
   body::before {
     content: '';
     position: fixed;
@@ -55,7 +54,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 1rem 3rem;
-    background: rgba(5,8,16,0.8);
+    background: rgba(5,8,16,0.85);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
   }
@@ -69,6 +68,7 @@
     gap: 8px;
     text-decoration: none;
     color: var(--text);
+    cursor: pointer;
   }
   .nav-logo span {
     background: linear-gradient(135deg, var(--accent), var(--accent2));
@@ -105,6 +105,7 @@
     padding: 0.5rem 1.25rem;
     border-radius: 8px;
     font-weight: 500;
+    cursor: pointer;
   }
   .nav-cta:hover { opacity: 0.9; }
 
@@ -193,6 +194,9 @@
     font-size: 0.95rem;
     transition: transform 0.2s, box-shadow 0.2s;
     box-shadow: 0 0 30px rgba(79,142,255,0.3);
+    cursor: pointer;
+    border: none;
+    display: inline-block;
   }
   .btn-primary:hover {
     transform: translateY(-2px);
@@ -208,6 +212,7 @@
     font-size: 0.95rem;
     border: 1px solid var(--border);
     transition: border-color 0.2s, background 0.2s;
+    display: inline-block;
   }
   .btn-secondary:hover {
     border-color: rgba(79,142,255,0.4);
@@ -272,7 +277,7 @@
   }
   .pad { padding: 6rem 0; }
 
-  /* === FEATURES BREVET === */
+  /* === FEATURE CARDS === */
   .brevet-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -329,7 +334,31 @@
     border: 1px solid rgba(79,142,255,0.2);
   }
 
-  /* === CHAT DEMO === */
+  /* === SUBJECTS === */
+  .subjects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+  .subject-pill {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .subject-pill:hover {
+    border-color: rgba(79,142,255,0.4);
+    background: rgba(79,142,255,0.05);
+    transform: scale(1.03);
+  }
+  .subject-emoji { font-size: 1.5rem; display: block; margin-bottom: 6px; }
+  .subject-name { font-size: 0.82rem; color: var(--text2); font-weight: 500; }
+
+  /* === CHAT SECTION (LANDING DEMO) === */
   .chat-section {
     background: var(--bg2);
     border-top: 1px solid var(--border);
@@ -365,12 +394,9 @@
     font-weight: 700;
     color: white;
     font-family: var(--font-title);
+    flex-shrink: 0;
   }
-  .chat-name {
-    font-weight: 600;
-    font-size: 0.9rem;
-    letter-spacing: -0.2px;
-  }
+  .chat-name { font-weight: 600; font-size: 0.9rem; letter-spacing: -0.2px; }
   .chat-status {
     font-size: 0.72rem;
     color: var(--accent3);
@@ -383,19 +409,15 @@
     width: 5px; height: 5px;
     background: var(--accent3);
     border-radius: 50%;
+    animation: pulse 2s infinite;
   }
-  .chat-body { padding: 1.25rem; display: flex; flex-direction: column; gap: 0.85rem; }
+  .chat-body { padding: 1.25rem; display: flex; flex-direction: column; gap: 0.85rem; max-height: 320px; overflow-y: auto; }
   .msg {
     display: flex;
     gap: 10px;
     align-items: flex-start;
-    animation: fadeUp 0.4s ease both;
   }
   .msg.user { flex-direction: row-reverse; }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
   .msg-avatar {
     width: 28px; height: 28px;
     border-radius: 50%;
@@ -449,7 +471,10 @@
     color: var(--text2);
     font-size: 0.83rem;
     font-family: var(--font-body);
+    outline: none;
+    transition: border-color 0.2s;
   }
+  .chat-input:focus { border-color: rgba(79,142,255,0.4); color: var(--text); }
   .chat-send {
     background: linear-gradient(135deg, var(--accent), var(--accent2));
     border: none;
@@ -459,30 +484,10 @@
     font-size: 0.83rem;
     cursor: pointer;
     font-weight: 500;
+    transition: opacity 0.2s;
   }
-
-  /* === SUBJECTS === */
-  .subjects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 1rem;
-    margin-top: 2.5rem;
-  }
-  .subject-pill {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1rem;
-    text-align: center;
-    transition: all 0.2s;
-  }
-  .subject-pill:hover {
-    border-color: rgba(79,142,255,0.4);
-    background: rgba(79,142,255,0.05);
-    transform: scale(1.03);
-  }
-  .subject-emoji { font-size: 1.5rem; display: block; margin-bottom: 6px; }
-  .subject-name { font-size: 0.82rem; color: var(--text2); font-weight: 500; }
+  .chat-send:hover { opacity: 0.85; }
+  .chat-send:disabled { opacity: 0.5; cursor: not-allowed; }
 
   /* === MEMORY SECTION === */
   .memory-grid {
@@ -534,100 +539,6 @@
   .t-title { font-size: 0.85rem; font-weight: 500; margin-bottom: 3px; }
   .t-sub { font-size: 0.78rem; color: var(--text3); }
 
-  /* === PRICING === */
-  .pricing-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.5rem;
-    margin-top: 3rem;
-  }
-  .price-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 2rem;
-    position: relative;
-    transition: transform 0.2s;
-  }
-  .price-card.featured {
-    border-color: rgba(79,142,255,0.5);
-    box-shadow: 0 0 40px rgba(79,142,255,0.15);
-  }
-  .price-card:hover { transform: translateY(-4px); }
-  .price-badge {
-    position: absolute;
-    top: -12px; left: 50%;
-    transform: translateX(-50%);
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    color: white;
-    font-size: 0.72rem;
-    font-weight: 700;
-    padding: 3px 12px;
-    border-radius: 100px;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-  }
-  .price-plan {
-    font-family: var(--font-title);
-    font-weight: 700;
-    font-size: 1rem;
-    margin-bottom: 1rem;
-    color: var(--text2);
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    font-size: 0.75rem;
-  }
-  .price-num {
-    font-family: var(--font-title);
-    font-size: 3rem;
-    font-weight: 800;
-    letter-spacing: -2px;
-    line-height: 1;
-    margin-bottom: 0.3rem;
-  }
-  .price-num sup { font-size: 1.2rem; vertical-align: super; letter-spacing: 0; }
-  .price-period { font-size: 0.82rem; color: var(--text3); margin-bottom: 1.5rem; }
-  .price-divider { height: 1px; background: var(--border); margin: 1.5rem 0; }
-  .price-features { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; }
-  .price-features li {
-    font-size: 0.85rem;
-    color: var(--text2);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .price-features li::before {
-    content: '✓';
-    color: var(--accent3);
-    font-weight: 700;
-    font-size: 0.75rem;
-  }
-  .price-features li.muted { color: var(--text3); }
-  .price-features li.muted::before { content: '—'; color: var(--text3); }
-  .price-cta {
-    display: block;
-    width: 100%;
-    margin-top: 1.5rem;
-    padding: 0.8rem;
-    border-radius: 10px;
-    text-align: center;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 0.9rem;
-    transition: all 0.2s;
-  }
-  .price-cta.filled {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    color: white;
-    box-shadow: 0 4px 20px rgba(79,142,255,0.3);
-  }
-  .price-cta.filled:hover { box-shadow: 0 8px 30px rgba(79,142,255,0.5); }
-  .price-cta.outline {
-    border: 1px solid var(--border);
-    color: var(--text2);
-  }
-  .price-cta.outline:hover { border-color: rgba(79,142,255,0.4); color: var(--text); }
-
   /* === MODES === */
   .modes-row {
     display: grid;
@@ -667,7 +578,7 @@
   }
   .mode-desc { font-size: 0.85rem; color: var(--text2); line-height: 1.6; }
 
-  /* === CTA FINAL === */
+  /* === FINAL CTA === */
   .final-cta {
     text-align: center;
     padding: 8rem 2rem;
@@ -747,15 +658,381 @@
     color: var(--text3);
   }
 
-  /* === RESPONSIVE === */
-  @media (max-width: 768px) {
-    nav { padding: 1rem 1.5rem; }
-    .nav-links { display: none; }
-    .chat-demo-wrapper { grid-template-columns: 1fr; }
-    .memory-grid { grid-template-columns: 1fr; }
-    .modes-row { grid-template-columns: 1fr; }
-    .footer-inner { grid-template-columns: 1fr 1fr; }
+  /* === FULL CHAT PAGE === */
+  #chat-page {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 200;
+    flex-direction: column;
   }
+  #chat-page.active { display: flex; }
+
+  .chat-page-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    background: rgba(5,8,16,0.9);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .chat-page-nav .nav-logo { font-size: 1.1rem; }
+  .chat-back {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text2);
+    padding: 0.4rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-family: var(--font-body);
+    transition: all 0.2s;
+  }
+  .chat-back:hover { border-color: rgba(79,142,255,0.4); color: var(--text); }
+
+  .chat-page-inner {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  /* Sidebar */
+  .chat-sidebar {
+    width: 260px;
+    flex-shrink: 0;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .sidebar-header {
+    padding: 1.25rem 1rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-header h3 {
+    font-family: var(--font-title);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text2);
+    margin-bottom: 0.75rem;
+  }
+  .new-chat-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem;
+    color: white;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: var(--font-body);
+    transition: opacity 0.2s;
+  }
+  .new-chat-btn:hover { opacity: 0.85; }
+
+  .sidebar-memory {
+    padding: 0.75rem 1rem;
+    flex: 1;
+    overflow-y: auto;
+  }
+  .memory-section-title {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 0.5rem;
+    margin-top: 0.75rem;
+  }
+  .memory-item {
+    background: rgba(79,142,255,0.06);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.6rem 0.75rem;
+    margin-bottom: 0.4rem;
+    font-size: 0.78rem;
+    color: var(--text2);
+    line-height: 1.4;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .memory-item:hover { border-color: rgba(79,142,255,0.35); background: rgba(79,142,255,0.1); color: var(--text); }
+  .memory-item-time { font-size: 0.68rem; color: var(--text3); margin-top: 3px; }
+
+  .mode-selector {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .mode-selector-title {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 0.25rem;
+  }
+  .mode-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 0.45rem 0.7rem;
+    color: var(--text2);
+    font-size: 0.78rem;
+    cursor: pointer;
+    font-family: var(--font-body);
+    text-align: left;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .mode-btn:hover, .mode-btn.active {
+    border-color: rgba(79,142,255,0.4);
+    background: rgba(79,142,255,0.08);
+    color: var(--text);
+  }
+  .mode-btn.active { border-color: rgba(79,142,255,0.5); }
+
+  /* Main chat area */
+  .chat-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+  .chat-main-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .chat-main-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: white;
+    font-family: var(--font-title);
+  }
+  .chat-main-info {}
+  .chat-main-name { font-weight: 600; font-size: 0.95rem; font-family: var(--font-title); }
+  .chat-main-status { font-size: 0.75rem; color: var(--accent3); display: flex; align-items: center; gap: 5px; }
+  .chat-main-status::before {
+    content: '';
+    width: 5px; height: 5px;
+    background: var(--accent3);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    scroll-behavior: smooth;
+  }
+  .chat-messages::-webkit-scrollbar { width: 4px; }
+  .chat-messages::-webkit-scrollbar-track { background: transparent; }
+  .chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .cmsg {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    animation: fadeUp 0.3s ease both;
+    max-width: 720px;
+  }
+  .cmsg.user { flex-direction: row-reverse; margin-left: auto; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .cmsg-av {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.68rem;
+    font-weight: 700;
+  }
+  .cmsg-bubble {
+    padding: 0.75rem 1rem;
+    border-radius: 14px;
+    font-size: 0.9rem;
+    line-height: 1.65;
+    white-space: pre-wrap;
+  }
+  .cmsg.user .cmsg-bubble {
+    background: rgba(124,92,252,0.15);
+    border: 1px solid rgba(124,92,252,0.25);
+    color: var(--text);
+    border-bottom-right-radius: 4px;
+  }
+  .cmsg.ai .cmsg-bubble {
+    background: rgba(79,142,255,0.07);
+    border: 1px solid rgba(79,142,255,0.15);
+    color: var(--text);
+    border-bottom-left-radius: 4px;
+  }
+  .cmsg-bubble code {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-family: monospace;
+    font-size: 0.85em;
+    color: var(--accent3);
+  }
+  .cmsg-bubble pre {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-top: 0.5rem;
+    font-family: monospace;
+    font-size: 0.82rem;
+    color: var(--accent3);
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .typing-indicator {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    padding: 0.75rem 1rem;
+  }
+  .typing-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: typingBounce 1.2s infinite;
+  }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typingBounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-6px); opacity: 1; }
+  }
+
+  .welcome-screen {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    gap: 1.5rem;
+  }
+  .welcome-logo {
+    width: 64px; height: 64px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: white;
+    box-shadow: 0 0 40px rgba(79,142,255,0.3);
+  }
+  .welcome-title {
+    font-family: var(--font-title);
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  .welcome-sub { font-size: 0.9rem; color: var(--text2); max-width: 400px; line-height: 1.7; }
+  .suggestions-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    width: 100%;
+    max-width: 480px;
+  }
+  .suggestion-chip {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    font-size: 0.82rem;
+    color: var(--text2);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+    line-height: 1.4;
+  }
+  .suggestion-chip:hover {
+    border-color: rgba(79,142,255,0.4);
+    background: rgba(79,142,255,0.07);
+    color: var(--text);
+  }
+  .suggestion-chip span { display: block; font-size: 1.1rem; margin-bottom: 4px; }
+
+  .chat-input-area {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--border);
+    flex-shrink: 0;
+    background: var(--bg);
+  }
+  .chat-input-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 0.75rem 1rem;
+    transition: border-color 0.2s;
+  }
+  .chat-input-row:focus-within { border-color: rgba(79,142,255,0.4); }
+  #mainChatInput {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-size: 0.9rem;
+    font-family: var(--font-body);
+    resize: none;
+    max-height: 120px;
+    min-height: 24px;
+    line-height: 1.5;
+  }
+  #mainChatInput::placeholder { color: var(--text3); }
+  .send-btn {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border: none;
+    border-radius: 8px;
+    width: 34px; height: 34px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: opacity 0.2s, transform 0.1s;
+  }
+  .send-btn:hover { opacity: 0.85; transform: scale(1.05); }
+  .send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  .send-btn svg { width: 15px; height: 15px; }
+
+  .chat-hint { font-size: 0.73rem; color: var(--text3); text-align: center; margin-top: 0.5rem; }
 
   /* === SCROLL FADE IN === */
   .reveal {
@@ -767,21 +1044,38 @@
     opacity: 1;
     transform: translateY(0);
   }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .chat-demo-wrapper { grid-template-columns: 1fr; }
+    .memory-grid { grid-template-columns: 1fr; }
+    .modes-row { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+    .chat-sidebar { display: none; }
+    .suggestions-grid { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
 
+<!-- ============================================================ -->
+<!-- LANDING PAGE -->
+<!-- ============================================================ -->
+<div id="landing-page">
+
 <!-- NAV -->
 <nav>
-  <a href="#" class="nav-logo">
+  <a class="nav-logo" onclick="showLanding()">
     <span>Creo</span> IA<sup class="nav-badge">BETA</sup>
   </a>
   <ul class="nav-links">
     <li><a href="#brevet">Brevet</a></li>
     <li><a href="#code">Code</a></li>
     <li><a href="#memoire">Mémoire</a></li>
-    <li><a href="#tarifs">Tarifs</a></li>
-    <li><a href="chat.html" class="nav-cta">Lancer l'IA →</a></li>
+    <li><a href="#modes">Modes</a></li>
+    <li><a onclick="openChat()" class="nav-cta" style="cursor:pointer">Lancer l'IA →</a></li>
   </ul>
 </nav>
 
@@ -792,7 +1086,7 @@
   <h1>L'IA qui t'accompagne<br><span class="grad">jusqu'au Brevet.</span></h1>
   <p>Creo IA retient tout ce que tu lui dis. Elle s'adapte à ton niveau, corrige tes erreurs, t'explique les maths, le français, l'histoire et même le code. Ton prof, ta mémoire, ton assistant — en un seul endroit.</p>
   <div class="hero-btns">
-    <a href="chat.html" class="btn-primary">⚡ Commencer gratuitement</a>
+    <button class="btn-primary" onclick="openChat()">⚡ Commencer gratuitement</button>
     <a href="#demo" class="btn-secondary">Voir la démo →</a>
   </div>
   <div class="stats">
@@ -861,22 +1155,21 @@
         <span class="feature-tag">Préparation ciblée</span>
       </div>
     </div>
-
     <div class="subjects-grid reveal" style="margin-top:2rem">
-      <div class="subject-pill"><span class="subject-emoji">📐</span><div class="subject-name">Maths</div></div>
-      <div class="subject-pill"><span class="subject-emoji">📖</span><div class="subject-name">Français</div></div>
-      <div class="subject-pill"><span class="subject-emoji">🌍</span><div class="subject-name">Histoire</div></div>
-      <div class="subject-pill"><span class="subject-emoji">🔬</span><div class="subject-name">SVT</div></div>
-      <div class="subject-pill"><span class="subject-emoji">⚗️</span><div class="subject-name">Physique</div></div>
-      <div class="subject-pill"><span class="subject-emoji">🇬🇧</span><div class="subject-name">Anglais</div></div>
-      <div class="subject-pill"><span class="subject-emoji">🗺️</span><div class="subject-name">Géo</div></div>
-      <div class="subject-pill"><span class="subject-emoji">🎨</span><div class="subject-name">Arts</div></div>
-      <div class="subject-pill"><span class="subject-emoji">💻</span><div class="subject-name">Techno</div></div>
+      <div class="subject-pill" onclick="openChatWith('Aide-moi en Maths')"><span class="subject-emoji">📐</span><div class="subject-name">Maths</div></div>
+      <div class="subject-pill" onclick="openChatWith('Aide-moi en Français')"><span class="subject-emoji">📖</span><div class="subject-name">Français</div></div>
+      <div class="subject-pill" onclick="openChatWith('Aide-moi en Histoire')"><span class="subject-emoji">🌍</span><div class="subject-name">Histoire</div></div>
+      <div class="subject-pill" onclick="openChatWith('Aide-moi en SVT')"><span class="subject-emoji">🔬</span><div class="subject-name">SVT</div></div>
+      <div class="subject-pill" onclick="openChatWith('Aide-moi en Physique-Chimie')"><span class="subject-emoji">⚗️</span><div class="subject-name">Physique</div></div>
+      <div class="subject-pill" onclick="openChatWith('Aide-moi en Anglais')"><span class="subject-emoji">🇬🇧</span><div class="subject-name">Anglais</div></div>
+      <div class="subject-pill" onclick="openChatWith('Aide-moi en Géographie')"><span class="subject-emoji">🗺️</span><div class="subject-name">Géo</div></div>
+      <div class="subject-pill" onclick="openChatWith('Aide-moi en Arts')"><span class="subject-emoji">🎨</span><div class="subject-name">Arts</div></div>
+      <div class="subject-pill" onclick="openChatWith('Aide-moi en Technologie')"><span class="subject-emoji">💻</span><div class="subject-name">Techno</div></div>
     </div>
   </div>
 </section>
 
-<!-- DEMO CHAT -->
+<!-- DEMO CHAT (static demo) -->
 <section class="chat-section pad" id="demo">
   <div class="container">
     <div class="chat-demo-wrapper">
@@ -898,9 +1191,8 @@
             <span style="color:var(--accent3);font-size:0.8rem">✓</span> Génère des fiches de révision
           </div>
         </div>
-        <a href="chat.html" class="btn-primary" style="display:inline-block;margin-top:2rem">Essayer maintenant →</a>
+        <button class="btn-primary" style="margin-top:2rem" onclick="openChat()">Essayer maintenant →</button>
       </div>
-
       <div class="chat-window reveal">
         <div class="chat-top">
           <div class="chat-avatar">CI</div>
@@ -910,36 +1202,37 @@
           </div>
         </div>
         <div class="chat-body">
-          <div class="msg user" style="animation-delay:0.1s">
+          <div class="msg user">
             <div class="msg-avatar user-av">Toi</div>
             <div class="msg-bubble user-bubble">Explique-moi le théorème de Pythagore comme si j'avais jamais vu ça</div>
           </div>
-          <div class="msg" style="animation-delay:0.3s">
+          <div class="msg">
             <div class="msg-avatar ai-av">CI</div>
             <div class="msg-bubble ai-bubble">
-              Bien sûr ! Imagine un triangle avec un angle droit (90°). Le théorème dit que le carré de la grande diagonale (l'hypoténuse) est égal à la somme des carrés des deux autres côtés.<div class="msg-code">a² + b² = c²
+              Bien sûr ! Imagine un triangle avec un angle droit (90°). Le théorème dit que le carré de la grande diagonale (l'hypoténuse) est égal à la somme des carrés des deux autres côtés.
+              <div class="msg-code">a² + b² = c²
 Exemple : a=3, b=4 → c² = 9+16 = 25 → c=5 ✓</div>
             </div>
           </div>
-          <div class="msg user" style="animation-delay:0.5s">
+          <div class="msg user">
             <div class="msg-avatar user-av">Toi</div>
             <div class="msg-bubble user-bubble">Et si je veux faire un exo avec ça ?</div>
           </div>
-          <div class="msg" style="animation-delay:0.7s">
+          <div class="msg">
             <div class="msg-avatar ai-av">CI</div>
             <div class="msg-bubble ai-bubble">Voilà un exercice niveau brevet : un triangle ABC a AB=6cm et BC=8cm, l'angle B est droit. Calcule AC. Je retiens que tu débutes sur ce chapitre pour t'envoyer des exercices adaptés 🎯</div>
           </div>
         </div>
         <div class="chat-input-bar">
-          <input class="chat-input" type="text" placeholder="Pose ta question..." readonly>
-          <button class="chat-send">Envoyer</button>
+          <input class="chat-input" type="text" placeholder="Clique sur Essayer maintenant →" readonly onclick="openChat()">
+          <button class="chat-send" onclick="openChat()">→</button>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- MEMORY -->
+<!-- MEMORY SECTION -->
 <section id="memoire" class="pad">
   <div class="container">
     <div class="reveal" style="text-align:center;max-width:600px;margin:0 auto 1rem">
@@ -969,7 +1262,6 @@ Exemple : a=3, b=4 → c² = 9+16 = 25 → c=5 ✓</div>
           </div>
         </div>
       </div>
-
       <div class="memory-card">
         <div style="font-family:var(--font-title);font-size:0.85rem;font-weight:700;color:var(--text2);letter-spacing:1px;text-transform:uppercase;margin-bottom:1rem">Historique de progression</div>
         <div class="memory-timeline">
@@ -984,7 +1276,7 @@ Exemple : a=3, b=4 → c² = 9+16 = 25 → c=5 ✓</div>
             <div class="t-dot">📖</div>
             <div class="t-content">
               <div class="t-title">Analyse de texte — en cours</div>
-              <div class="t-sub">Hier · Progrès detecté</div>
+              <div class="t-sub">Hier · Progrès détecté</div>
             </div>
           </div>
           <div class="timeline-item">
@@ -1034,85 +1326,27 @@ Exemple : a=3, b=4 → c² = 9+16 = 25 → c=5 ✓</div>
 </section>
 
 <!-- MODES -->
-<section class="pad">
+<section id="modes" class="pad">
   <div class="container">
     <div class="reveal" style="text-align:center;max-width:600px;margin:0 auto 1rem">
       <p class="section-label">3 Modes</p>
       <h2 class="section-title">Pour chaque<br>moment de ta vie.</h2>
     </div>
     <div class="modes-row reveal">
-      <div class="mode-card">
+      <div class="mode-card" onclick="openChatWithMode('brevet')">
         <div class="mode-num">01</div>
         <div class="mode-title">Mode Brevet 🎯</div>
         <div class="mode-desc">Révisions guidées, exercices, fiches mémo, simulations d'examen. Tout pour être prêt le jour J.</div>
       </div>
-      <div class="mode-card">
+      <div class="mode-card" onclick="openChatWithMode('code')">
         <div class="mode-num">02</div>
         <div class="mode-title">Mode Code 💻</div>
         <div class="mode-desc">Apprendre à coder, debugger, créer des projets. Ton prof de prog disponible à 2h du mat si besoin.</div>
       </div>
-      <div class="mode-card">
+      <div class="mode-card" onclick="openChatWithMode('vie')">
         <div class="mode-num">03</div>
         <div class="mode-title">Mode Vie 🌟</div>
         <div class="mode-desc">Des questions sur n'importe quoi — cuisine, culture, voyage, orientation, conseils. Creo IA est là.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TARIFS -->
-<section id="tarifs" class="pad" style="background:var(--bg2);border-top:1px solid var(--border)">
-  <div class="container">
-    <div class="reveal" style="text-align:center;max-width:500px;margin:0 auto 1rem">
-      <p class="section-label">Tarifs</p>
-      <h2 class="section-title">Commence<br>gratuitement.</h2>
-    </div>
-    <div class="pricing-grid reveal">
-      <div class="price-card">
-        <div class="price-plan">Gratuit</div>
-        <div class="price-num">0<sup>€</sup></div>
-        <div class="price-period">pour toujours</div>
-        <div class="price-divider"></div>
-        <ul class="price-features">
-          <li>50 messages / jour</li>
-          <li>Toutes les matières brevet</li>
-          <li>Mémoire de 7 jours</li>
-          <li>Mode code basique</li>
-          <li class="muted">Mémoire illimitée</li>
-          <li class="muted">Génération de fiches PDF</li>
-        </ul>
-        <a href="chat.html" class="price-cta outline">Commencer →</a>
-      </div>
-      <div class="price-card featured">
-        <div class="price-badge">⚡ POPULAIRE</div>
-        <div class="price-plan">Brevet+</div>
-        <div class="price-num">4<sup>€</sup></div>
-        <div class="price-period">par mois</div>
-        <div class="price-divider"></div>
-        <ul class="price-features">
-          <li>Messages illimités</li>
-          <li>Mémoire permanente</li>
-          <li>Fiches de révision PDF</li>
-          <li>Mode code avancé</li>
-          <li>Simulations d'examen</li>
-          <li>Suivi de progression</li>
-        </ul>
-        <a href="chat.html" class="price-cta filled">Essayer 7 jours gratuit</a>
-      </div>
-      <div class="price-card">
-        <div class="price-plan">Famille</div>
-        <div class="price-num">8<sup>€</sup></div>
-        <div class="price-period">par mois · 3 élèves</div>
-        <div class="price-divider"></div>
-        <ul class="price-features">
-          <li>Tout du Brevet+</li>
-          <li>3 profils séparés</li>
-          <li>Tableau de bord parent</li>
-          <li>Rapport hebdo progrès</li>
-          <li>Support prioritaire</li>
-          <li>Toutes les matières</li>
-        </ul>
-        <a href="chat.html" class="price-cta outline">En savoir plus →</a>
       </div>
     </div>
   </div>
@@ -1123,7 +1357,7 @@ Exemple : a=3, b=4 → c² = 9+16 = 25 → c=5 ✓</div>
   <h2>Ton brevet,<br><span style="background:linear-gradient(135deg,#4f8eff,#7c5cfc,#00e5c0);-webkit-background-clip:text;-webkit-text-fill-color:transparent">c'est gagné.</span></h2>
   <p>Rejoins les élèves qui révisent avec Creo IA. Commence maintenant — aucune carte bancaire requise.</p>
   <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
-    <a href="chat.html" class="btn-primary">⚡ Lancer Creo IA</a>
+    <button class="btn-primary" onclick="openChat()">⚡ Lancer Creo IA</button>
     <a href="#brevet" class="btn-secondary">Voir les matières</a>
   </div>
 </div>
@@ -1132,7 +1366,7 @@ Exemple : a=3, b=4 → c² = 9+16 = 25 → c=5 ✓</div>
 <footer>
   <div class="footer-inner">
     <div class="footer-brand">
-      <a href="#" class="nav-logo" style="font-size:1.2rem"><span>Creo</span> IA</a>
+      <a class="nav-logo" style="font-size:1.2rem" onclick="showLanding()"><span>Creo</span> IA</a>
       <p>Ton IA personnelle pour réviser le brevet, apprendre à coder, et avancer dans la vie. Dérivée de la marque Creo.</p>
     </div>
     <div class="footer-col">
@@ -1141,7 +1375,7 @@ Exemple : a=3, b=4 → c² = 9+16 = 25 → c=5 ✓</div>
         <li><a href="#brevet">Mode Brevet</a></li>
         <li><a href="#code">Mode Code</a></li>
         <li><a href="#memoire">Mémoire IA</a></li>
-        <li><a href="chat.html">Lancer l'IA</a></li>
+        <li><a onclick="openChat()" style="cursor:pointer">Lancer l'IA</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -1149,7 +1383,6 @@ Exemple : a=3, b=4 → c² = 9+16 = 25 → c=5 ✓</div>
       <ul>
         <li><a href="https://axo36.github.io/creo/menu/index.html" target="_blank">Creo Transfer</a></li>
         <li><a href="https://axo36.github.io/creo/menu/about.html" target="_blank">À propos</a></li>
-        <li><a href="https://axo36.github.io/creo/menu/pricing.html" target="_blank">Tarifs</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -1167,15 +1400,464 @@ Exemple : a=3, b=4 → c² = 9+16 = 25 → c=5 ✓</div>
   </div>
 </footer>
 
+</div><!-- end landing-page -->
+
+<!-- ============================================================ -->
+<!-- FULL CHAT PAGE -->
+<!-- ============================================================ -->
+<div id="chat-page">
+  <!-- Top nav -->
+  <div class="chat-page-nav">
+    <a class="nav-logo" onclick="showLanding()" style="cursor:pointer">
+      <span>Creo</span> IA<sup class="nav-badge">BETA</sup>
+    </a>
+    <div style="display:flex;align-items:center;gap:10px">
+      <span id="current-mode-label" style="font-size:0.78rem;color:var(--text3);letter-spacing:0.5px"></span>
+      <button class="chat-back" onclick="showLanding()">← Retour</button>
+    </div>
+  </div>
+
+  <div class="chat-page-inner">
+    <!-- Sidebar -->
+    <div class="chat-sidebar">
+      <div class="sidebar-header">
+        <h3>Conversations</h3>
+        <button class="new-chat-btn" onclick="newChat()">+ Nouvelle conversation</button>
+      </div>
+      <div class="sidebar-memory">
+        <div class="memory-section-title">Mémoire IA</div>
+        <div id="memory-list"></div>
+        <div class="memory-section-title" style="margin-top:1rem">Historique</div>
+        <div id="history-list"></div>
+      </div>
+      <div class="mode-selector">
+        <div class="mode-selector-title">Mode actif</div>
+        <button class="mode-btn active" id="btn-brevet" onclick="setMode('brevet')">🎯 Mode Brevet</button>
+        <button class="mode-btn" id="btn-code" onclick="setMode('code')">💻 Mode Code</button>
+        <button class="mode-btn" id="btn-vie" onclick="setMode('vie')">🌟 Mode Vie</button>
+      </div>
+    </div>
+
+    <!-- Main chat -->
+    <div class="chat-main">
+      <div class="chat-main-header">
+        <div class="chat-main-avatar">CI</div>
+        <div class="chat-main-info">
+          <div class="chat-main-name">Creo IA</div>
+          <div class="chat-main-status" id="ai-status-label">En ligne — mémoire active</div>
+        </div>
+      </div>
+
+      <!-- Welcome screen -->
+      <div class="welcome-screen" id="welcome-screen">
+        <div class="welcome-logo">CI</div>
+        <div class="welcome-title">Bonjour ! Je suis Creo IA ✨</div>
+        <div class="welcome-sub">Ton assistante intelligente pour le brevet, le code, et tout le reste. Je me souviens de tout ce qu'on s'est dit.</div>
+        <div class="suggestions-grid" id="suggestions-grid">
+          <div class="suggestion-chip" onclick="sendSuggestion(this.dataset.msg)" data-msg="Aide-moi à réviser les maths pour le brevet"><span>📐</span>Révisions maths brevet</div>
+          <div class="suggestion-chip" onclick="sendSuggestion(this.dataset.msg)" data-msg="Explique-moi comment faire une analyse de texte en français"><span>📖</span>Analyse de texte</div>
+          <div class="suggestion-chip" onclick="sendSuggestion(this.dataset.msg)" data-msg="Apprends-moi Python de zéro"><span>🐍</span>Apprendre Python</div>
+          <div class="suggestion-chip" onclick="sendSuggestion(this.dataset.msg)" data-msg="Génère-moi une fiche de révision sur la Seconde Guerre Mondiale"><span>📋</span>Fiche de révision</div>
+        </div>
+      </div>
+
+      <!-- Messages -->
+      <div class="chat-messages" id="chat-messages" style="display:none"></div>
+
+      <!-- Input area -->
+      <div class="chat-input-area">
+        <div class="chat-input-row">
+          <textarea id="mainChatInput" placeholder="Pose ta question à Creo IA..." rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+          <button class="send-btn" id="send-btn" onclick="sendMessage()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </div>
+        <div class="chat-hint">Entrée pour envoyer · Shift+Entrée pour saut de ligne · Creo IA garde tout en mémoire</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
+// ============================================================
+// STATE
+// ============================================================
+let currentMode = 'brevet';
+let messages = []; // current conversation
+let memory = []; // persistent memory facts
+let isLoading = false;
+
+const MEMORY_KEY = 'creo_ia_memory';
+const HISTORY_KEY = 'creo_ia_history';
+
+// Load memory from localStorage
+function loadMemory() {
+  try {
+    const m = localStorage.getItem(MEMORY_KEY);
+    if (m) memory = JSON.parse(m);
+  } catch(e) { memory = []; }
+}
+
+function saveMemory() {
+  try { localStorage.setItem(MEMORY_KEY, JSON.stringify(memory)); } catch(e) {}
+}
+
+function loadHistory() {
+  try {
+    const h = localStorage.getItem(HISTORY_KEY);
+    return h ? JSON.parse(h) : [];
+  } catch(e) { return []; }
+}
+
+function saveToHistory(userMsg, aiMsg) {
+  try {
+    let history = loadHistory();
+    history.unshift({
+      user: userMsg.slice(0, 80),
+      ai: aiMsg.slice(0, 120),
+      time: new Date().toLocaleString('fr-FR', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' }),
+      mode: currentMode
+    });
+    history = history.slice(0, 20);
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+  } catch(e) {}
+}
+
+// ============================================================
+// SYSTEM PROMPTS
+// ============================================================
+function getSystemPrompt() {
+  const memoryContext = memory.length > 0
+    ? `\n\nMÉMOIRE PERSISTANTE (ce que tu sais déjà sur cet élève) :\n${memory.map(m => '- ' + m).join('\n')}`
+    : '';
+
+  const modeInstructions = {
+    brevet: `Tu es Creo IA, une assistante intelligente et bienveillante spécialisée dans la préparation au Brevet des Collèges (3ème, France).
+Ton rôle principal : accompagner l'élève jusqu'au brevet. Tu dois :
+- Expliquer clairement les notions du programme de 3ème (maths, français, histoire-géo, SVT, physique-chimie, anglais, technologie)
+- Générer des exercices adaptés au niveau et au format du brevet
+- Corriger avec bienveillance et expliquer les erreurs
+- Créer des fiches de révision claires et structurées
+- Suivre la progression et adapter le niveau
+- Être motivant et positif
+
+Quand tu retiens quelque chose d'important sur l'élève (son niveau dans une matière, ses difficultés, ses points forts), formule-le clairement.
+Réponds toujours en français sauf si l'élève t'écrit en anglais.
+Pour les formules mathématiques, utilise la notation claire : a² + b² = c²
+Pour le code, utilise des blocs de code.${memoryContext}`,
+
+    code: `Tu es Creo IA, une assistante de programmation pédagogique pour collégiens et lycéens.
+Tu enseignes : Python, HTML/CSS, JavaScript, et les bases de la programmation.
+- Explique le code ligne par ligne, avec des exemples concrets
+- Debug instantanément avec explication de l'erreur
+- Propose des mini-projets fun (jeux, calculatrices, apps simples)
+- Adapte le niveau : débutant → intermédiaire → avancé
+- Sois enthousiaste et rends la prog accessible
+- Utilise toujours des blocs de code formatés
+- Commence par le plus simple, puis complexifie${memoryContext}`,
+
+    vie: `Tu es Creo IA, une assistante de vie quotidienne bienveillante et intelligente pour les jeunes.
+Tu aides sur tout : orientation scolaire, conseils personnels, culture générale, cuisine, sport, voyages, langue, finances de base, etc.
+- Sois chaleureux(se) et accessible
+- Donne des conseils pratiques et concrets
+- Reste bienveillant(e) même sur des sujets sensibles
+- Encourage l'autonomie et la réflexion
+- Adapte-toi à l'âge et au niveau du jeune${memoryContext}`
+  };
+
+  return modeInstructions[currentMode] || modeInstructions.brevet;
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function showLanding() {
+  document.getElementById('landing-page').style.display = 'block';
+  document.getElementById('chat-page').classList.remove('active');
+}
+
+function openChat() {
+  document.getElementById('landing-page').style.display = 'none';
+  document.getElementById('chat-page').classList.add('active');
+  loadMemory();
+  renderMemoryList();
+  renderHistoryList();
+  updateModeLabel();
+  document.getElementById('mainChatInput').focus();
+}
+
+function openChatWith(msg) {
+  openChat();
+  setTimeout(() => {
+    document.getElementById('mainChatInput').value = msg;
+    autoResize(document.getElementById('mainChatInput'));
+    sendMessage();
+  }, 100);
+}
+
+function openChatWithMode(mode) {
+  setMode(mode);
+  openChat();
+}
+
+// ============================================================
+// MODE
+// ============================================================
+function setMode(mode) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById('btn-' + mode);
+  if (btn) btn.classList.add('active');
+  updateModeLabel();
+}
+
+function updateModeLabel() {
+  const labels = { brevet: '🎯 Mode Brevet', code: '💻 Mode Code', vie: '🌟 Mode Vie' };
+  const el = document.getElementById('current-mode-label');
+  if (el) el.textContent = labels[currentMode] || '';
+}
+
+// ============================================================
+// MEMORY UI
+// ============================================================
+function renderMemoryList() {
+  const el = document.getElementById('memory-list');
+  if (!el) return;
+  if (memory.length === 0) {
+    el.innerHTML = '<div style="font-size:0.75rem;color:var(--text3);padding:0.5rem 0">Aucune mémoire encore. Commence à chatter !</div>';
+    return;
+  }
+  el.innerHTML = memory.slice(0, 8).map(m =>
+    `<div class="memory-item">${escapeHtml(m)}</div>`
+  ).join('');
+}
+
+function renderHistoryList() {
+  const el = document.getElementById('history-list');
+  if (!el) return;
+  const history = loadHistory();
+  if (history.length === 0) {
+    el.innerHTML = '<div style="font-size:0.75rem;color:var(--text3);padding:0.5rem 0">Aucun historique.</div>';
+    return;
+  }
+  el.innerHTML = history.slice(0, 8).map(h =>
+    `<div class="memory-item" onclick="loadConversationContext('${escapeAttr(h.user)}')">
+      <div>${escapeHtml(h.user.slice(0,60))}…</div>
+      <div class="memory-item-time">${h.time} · ${h.mode || 'brevet'}</div>
+    </div>`
+  ).join('');
+}
+
+function loadConversationContext(msg) {
+  document.getElementById('mainChatInput').value = 'Je veux continuer sur : ' + msg;
+  autoResize(document.getElementById('mainChatInput'));
+}
+
+// ============================================================
+// CHAT
+// ============================================================
+function newChat() {
+  messages = [];
+  document.getElementById('chat-messages').innerHTML = '';
+  document.getElementById('chat-messages').style.display = 'none';
+  document.getElementById('welcome-screen').style.display = 'flex';
+}
+
+function sendSuggestion(msg) {
+  document.getElementById('mainChatInput').value = msg;
+  sendMessage();
+}
+
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+async function sendMessage() {
+  if (isLoading) return;
+  const input = document.getElementById('mainChatInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  // Show chat area
+  document.getElementById('welcome-screen').style.display = 'none';
+  document.getElementById('chat-messages').style.display = 'flex';
+
+  input.value = '';
+  input.style.height = 'auto';
+
+  // Add user message
+  messages.push({ role: 'user', content: text });
+  appendMessage('user', text);
+
+  // Typing indicator
+  const typingEl = appendTyping();
+  isLoading = true;
+  document.getElementById('send-btn').disabled = true;
+  document.getElementById('ai-status-label').textContent = 'En train d\'écrire…';
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: getSystemPrompt(),
+        messages: messages.map(m => ({ role: m.role, content: m.content }))
+      })
+    });
+
+    const data = await response.json();
+    typingEl.remove();
+
+    let aiText = '';
+    if (data.content && data.content.length > 0) {
+      aiText = data.content.filter(b => b.type === 'text').map(b => b.text).join('');
+    } else if (data.error) {
+      aiText = `Oups ! Une erreur s'est produite : ${data.error.message || 'Essaie de recharger.'}`;
+    }
+
+    messages.push({ role: 'assistant', content: aiText });
+    appendMessage('ai', aiText);
+
+    // Extract memory
+    extractAndSaveMemory(text, aiText);
+    saveToHistory(text, aiText);
+    renderHistoryList();
+    renderMemoryList();
+
+  } catch(err) {
+    typingEl.remove();
+    const errMsg = 'Désolé, je n\'arrive pas à te répondre pour l\'instant. Vérifie ta connexion et réessaie !';
+    messages.push({ role: 'assistant', content: errMsg });
+    appendMessage('ai', errMsg);
+  }
+
+  isLoading = false;
+  document.getElementById('send-btn').disabled = false;
+  document.getElementById('ai-status-label').innerHTML = '<span style="color:var(--accent3)">En ligne — mémoire active</span>';
+}
+
+function appendMessage(role, text) {
+  const container = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = `cmsg ${role}`;
+
+  const av = document.createElement('div');
+  av.className = `cmsg-av ${role === 'ai' ? 'ai-av' : 'user-av'}`;
+  av.textContent = role === 'ai' ? 'CI' : 'Toi';
+
+  const bubble = document.createElement('div');
+  bubble.className = 'cmsg-bubble';
+  bubble.innerHTML = formatMessage(text);
+
+  div.appendChild(av);
+  div.appendChild(bubble);
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+  return div;
+}
+
+function appendTyping() {
+  const container = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'cmsg ai';
+  div.innerHTML = `
+    <div class="cmsg-av ai-av">CI</div>
+    <div class="cmsg-bubble">
+      <div class="typing-indicator">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+    </div>`;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+  return div;
+}
+
+function formatMessage(text) {
+  // Code blocks
+  text = text.replace(/```(\w+)?\n([\s\S]*?)```/g, (_, lang, code) =>
+    `<pre>${escapeHtml(code.trim())}</pre>`);
+  // Inline code
+  text = text.replace(/`([^`]+)`/g, (_, code) =>
+    `<code>${escapeHtml(code)}</code>`);
+  // Bold
+  text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  // Newlines
+  text = text.replace(/\n/g, '<br>');
+  return text;
+}
+
+// ============================================================
+// MEMORY EXTRACTION
+// ============================================================
+async function extractAndSaveMemory(userMsg, aiMsg) {
+  // Simple heuristic memory extraction — look for patterns indicating level/progress
+  const combined = (userMsg + ' ' + aiMsg).toLowerCase();
+
+  const patterns = [
+    { test: /je suis en (3[eè]me|troisième)/i, fn: m => `Élève en 3ème` },
+    { test: /j'ai (du mal|du mal|difficultés?) (avec|en|sur) ([\w\s]+)/i, fn: m => `Difficulté en : ${m[3]}` },
+    { test: /je (?:suis|me sens) nul(?:le)? en ([\w\s]+)/i, fn: m => `Point faible : ${m[1]}` },
+    { test: /j'adore? (les? [\w\s]+|la [\w\s]+)/i, fn: m => `Aime : ${m[1]}` },
+    { test: /mon brevet (est le|est en|est dans)/i, fn: () => `Prépare le brevet` },
+    { test: /j'apprends? (python|javascript|html|css|le code|la prog)/i, fn: m => `Apprend : ${m[1]}` },
+  ];
+
+  let newFacts = [];
+  for (const p of patterns) {
+    const match = (userMsg).match(p.test);
+    if (match) {
+      const fact = p.fn(match);
+      if (fact && !memory.some(m => m.toLowerCase().includes(fact.toLowerCase().slice(0, 20)))) {
+        newFacts.push(fact);
+      }
+    }
+  }
+
+  if (newFacts.length > 0) {
+    memory = [...memory, ...newFacts].slice(-30);
+    saveMemory();
+  }
+}
+
+// ============================================================
+// UTILS
+// ============================================================
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function escapeAttr(s) {
+  return s.replace(/'/g, "\\'").replace(/"/g, '&quot;').slice(0, 80);
+}
+
+// ============================================================
+// SCROLL REVEAL
+// ============================================================
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('visible');
-    }
+    if (e.isIntersecting) e.target.classList.add('visible');
   });
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ============================================================
+// INIT
+// ============================================================
+loadMemory();
 </script>
 </body>
 </html>
